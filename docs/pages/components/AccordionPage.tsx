@@ -33,6 +33,27 @@ const ACCORDION_DEMO = `const [open, setOpen] = useState<string[]>(['billing']);
   ]}
 />`;
 
+
+const COMPOUND_ACCORDION_DEMO = `<Accordion variant="separated" multiple defaultOpen={['features']}>
+  <Accordion.Item value="features">
+    <Accordion.Trigger icon={<SettingsIcon />} badge={<Badge tone="primary" pill>New</Badge>}>
+      Configurable System Flags
+    </Accordion.Trigger>
+    <Accordion.Content>
+      Toggle individual experimental modules and preview real-time changes before committing to staging.
+    </Accordion.Content>
+  </Accordion.Item>
+
+  <Accordion.Item value="security">
+    <Accordion.Trigger icon={<LockIcon />}>
+      Enterprise Access Control & MFA
+    </Accordion.Trigger>
+    <Accordion.Content>
+      Enforce hardware security keys (FIDO2) and biometric passkeys for all organization administrators.
+    </Accordion.Content>
+  </Accordion.Item>
+</Accordion>`;
+
 const VARIANTS_DEMO = `<Accordion
   variant="separated"
   items={[
@@ -172,6 +193,34 @@ export function AccordionPage() {
               />
             </div>
           </div>
+        </Showcase>
+      </Section>
+
+
+      <Section
+        title="Compound Component API (High Flexibility)"
+        description="Compose accordions declaratively using Accordion.Item, Accordion.Trigger, and Accordion.Content."
+      >
+        <Showcase code={COMPOUND_ACCORDION_DEMO} defaultOpen width="md">
+          <Accordion variant="separated" multiple defaultOpen={['features']} style={{ width: '100%' }}>
+            <Accordion.Item value="features">
+              <Accordion.Trigger icon={<SettingsIcon />} badge={<Badge tone="primary" pill>New</Badge>}>
+                Configurable System Flags
+              </Accordion.Trigger>
+              <Accordion.Content>
+                Toggle individual experimental modules and preview real-time changes before committing to staging.
+              </Accordion.Content>
+            </Accordion.Item>
+
+            <Accordion.Item value="security">
+              <Accordion.Trigger icon={<LockIcon />}>
+                Enterprise Access Control & MFA
+              </Accordion.Trigger>
+              <Accordion.Content>
+                Enforce hardware security keys (FIDO2) and biometric passkeys for all organization administrators.
+              </Accordion.Content>
+            </Accordion.Item>
+          </Accordion>
         </Showcase>
       </Section>
 

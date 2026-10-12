@@ -12,6 +12,7 @@ import {
   type Column,
   type SortState,
 } from '../../src/index';
+import { exportToCsv, toast } from '../../src/index';
 import { PlusIcon, SearchIcon } from '../../src/index';
 import { Callout, PropsTable, Showcase } from '../components/Showcase';
 import { DocPage, Section } from '../components/DocPage';
@@ -142,6 +143,63 @@ function buildColumns(): Column<Customer>[] {
     },
   ];
 }
+
+
+const INTEGRATED_SUPERPOWERS_DEMO = `const [selectedKeys, setSelectedKeys] = useState<string[]>(['1', '2']);
+const [page, setPage] = useState(1);
+
+<DataTable
+  columns={columns}
+  data={data}
+  rowKey={(row) => row.id}
+  selectable
+  selectedKeys={selectedKeys}
+  onSelectionChange={setSelectedKeys}
+  // 1. Integrated Pagination
+  pagination={{
+    page,
+    total: data.length,
+    pageSize: 5,
+    onPageChange: setPage,
+    showTotal: true,
+  }}
+  // 2. Built-in Bulk Actions Bar
+  bulkActions={(keys) => (
+    <div style={{ display: 'flex', gap: '0.5rem' }}>
+      <Button
+        size="sm"
+        variant="danger"
+        onClick={() => {
+          toast.success(\`Archived \${keys.length} selected customers\`);
+          setSelectedKeys([]);
+        }}
+      >
+        Archive Selected
+      </Button>
+      <Button
+        size="sm"
+        variant="outline"
+        onClick={() => {
+          const selectedRows = data.filter((c) => keys.includes(c.id));
+          exportToCsv(columns, selectedRows, 'selected-customers.csv');
+        }}
+      >
+        Export Selected
+      </Button>
+    </div>
+  )}
+  toolbar={
+    <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+      <Button
+        size="sm"
+        variant="outline"
+        onClick={() => exportToCsv(columns, data, 'all-customers.csv')}
+      >
+        Export All to CSV
+      </Button>
+    </div>
+  }
+/>`;
 
 export function TablePage() {
   const [sort, setSort] = useState<SortState | null>({ column: 'mrr', direction: 'desc' });
@@ -376,6 +434,16 @@ export function TablePage() {
         />
       </Section>
 
+
+      <Section
+        title="Integrated Pagination, Bulk Actions & CSV Export (Superpowers)"
+        description="Built-in pagination footer, active multi-selection action toolbar, and one-click RFC 4180 CSV spreadsheet export."
+      >
+        <Showcase code={INTEGRATED_SUPERPOWERS_DEMO} defaultOpen width="md">
+          <DataTableDemoWithSuperpowers />
+        </Showcase>
+      </Section>
+
       <Section title="Accessibility">
         <Card>
           <CardBody>
@@ -402,5 +470,109 @@ export function TablePage() {
         </Card>
       </Section>
     </DocPage>
+  );
+}
+
+
+function DataTableDemoWithSuperpowers() {
+  const [selectedKeys, setSelectedKeys] = useState<string[]>(['1', '2']);
+  const [page, setPage] = useState(1);
+  const pageSize = 5;
+
+  const pagedData = useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return CUSTOMERS.slice(start, start + pageSize);
+  }, [page]);
+
+  const demoCols: Column<Customer>[] = [
+    {
+      id: 'name',
+      header: 'Customer',
+      accessor: (r) => r.name,
+      cell: (r) => (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+          <Avatar name={r.name} size="sm" />
+          <div>
+            <div style={{ fontWeight: 600 }}>{r.name}</div>
+            <div style={{ fontSize: '0.75rem', color: 'var(--pui-text-muted)' }}>{r.email}</div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: 'plan',
+      header: 'Plan',
+      accessor: (r) => r.plan,
+    },
+    {
+      id: 'status',
+      header: 'Status',
+      accessor: (r) => r.status,
+      cell: (r) => (
+        <Badge tone={STATUS_TONE[r.status]} size="sm">
+          {STATUS_LABEL[r.status]}
+        </Badge>
+      ),
+    },
+    {
+      id: 'mrr',
+      header: 'MRR',
+      numeric: true,
+      accessor: (r) => r.mrr,
+      cell: (r) => '$' + r.mrr.toLocaleString(),
+    },
+  ];
+
+  return (
+    <DataTable
+      columns={demoCols}
+      data={pagedData}
+      rowKey={(r) => r.id}
+      selectable
+      selectedKeys={selectedKeys}
+      onSelectionChange={setSelectedKeys}
+      pagination={{
+        page,
+        total: CUSTOMERS.length,
+        pageSize,
+        onPageChange: setPage,
+        showTotal: true,
+      }}
+      bulkActions={(keys) => (
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <Button
+            size="sm"
+            variant="danger"
+            onClick={() => {
+              toast.success(`Archived ${keys.length} selected customers`);
+              setSelectedKeys([]);
+            }}
+          >
+            Archive Selected
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => {
+              const selectedRows = CUSTOMERS.filter((c) => keys.includes(c.id));
+              exportToCsv(demoCols, selectedRows, 'selected-customers.csv');
+            }}
+          >
+            Export Selected
+          </Button>
+        </div>
+      )}
+      toolbar={
+        <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => exportToCsv(demoCols, CUSTOMERS, 'all-customers.csv')}
+          >
+            Export All to CSV
+          </Button>
+        </div>
+      }
+    />
   );
 }

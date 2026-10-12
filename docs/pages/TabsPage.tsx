@@ -19,6 +19,52 @@ const CONTROLLED = `const [tab, setTab] = useState('overview');
 <Tabs items={items} value={tab} onValueChange={setTab} />`;
 
 const VERTICAL = `<Tabs orientation="vertical" items={items} />`;
+const COMPOUND_DEMO = `<Tabs defaultValue="account">
+  <Tabs.List>
+    <Tabs.Trigger value="account" icon={<UsersIcon size={15} />}>
+      Account Settings
+    </Tabs.Trigger>
+    <Tabs.Trigger value="billing" count={3}>
+      Billing & Invoices
+    </Tabs.Trigger>
+    <Tabs.Trigger value="notifications">
+      Notifications
+    </Tabs.Trigger>
+  </Tabs.List>
+
+  <Tabs.Content value="account">
+    <Card padded>
+      <div className="stat-mini">
+        <span>Active User</span>
+        <strong>alexander@hesh.dev</strong>
+      </div>
+      <p className="prose" style={{ marginTop: '0.5rem' }}>
+        Configure personal workspace credentials and session tokens.
+      </p>
+    </Card>
+  </Tabs.Content>
+
+  <Tabs.Content value="billing">
+    <Card padded>
+      <div className="stat-mini">
+        <span>Current Tier</span>
+        <strong>Pro Enterprise ($49/mo)</strong>
+      </div>
+      <p className="prose" style={{ marginTop: '0.5rem' }}>
+        Next invoice will bill on the 1st of the upcoming month.
+      </p>
+    </Card>
+  </Tabs.Content>
+
+  <Tabs.Content value="notifications">
+    <Card padded>
+      <p className="prose">
+        Push notifications and email alerts are enabled for high-severity incidents.
+      </p>
+    </Card>
+  </Tabs.Content>
+</Tabs>`;
+
 
 export function TabsPage() {
   const [tab, setTab] = useState('overview');
@@ -195,6 +241,60 @@ export function TabsPage() {
             { name: 'lazy', type: 'boolean', default: 'false', description: 'Mount only the active panel.' },
           ]}
         />
+      </Section>
+
+
+      <Section
+        title="Compound Component API (High Flexibility)"
+        description="Build custom layouts using Tabs.List, Tabs.Trigger, and Tabs.Content with full keyboard roving focus."
+      >
+        <Showcase code={COMPOUND_DEMO} defaultOpen width="md">
+          <Tabs defaultValue="account" style={{ width: '100%' }}>
+            <Tabs.List>
+              <Tabs.Trigger value="account" icon={<UsersIcon size={15} />}>
+                Account Settings
+              </Tabs.Trigger>
+              <Tabs.Trigger value="billing" count={3}>
+                Billing & Invoices
+              </Tabs.Trigger>
+              <Tabs.Trigger value="notifications">
+                Notifications
+              </Tabs.Trigger>
+            </Tabs.List>
+
+            <Tabs.Content value="account">
+              <Card padded style={{ marginTop: '0.75rem' }}>
+                <div className="stat-mini">
+                  <span>Active User</span>
+                  <strong>alexander@hesh.dev</strong>
+                </div>
+                <p className="prose" style={{ marginTop: '0.5rem' }}>
+                  Configure personal workspace credentials and session tokens.
+                </p>
+              </Card>
+            </Tabs.Content>
+
+            <Tabs.Content value="billing">
+              <Card padded style={{ marginTop: '0.75rem' }}>
+                <div className="stat-mini">
+                  <span>Current Tier</span>
+                  <strong>Pro Enterprise ($49/mo)</strong>
+                </div>
+                <p className="prose" style={{ marginTop: '0.5rem' }}>
+                  Next invoice will bill on the 1st of the upcoming month.
+                </p>
+              </Card>
+            </Tabs.Content>
+
+            <Tabs.Content value="notifications">
+              <Card padded style={{ marginTop: '0.75rem' }}>
+                <p className="prose">
+                  Push notifications and email alerts are enabled for high-severity incidents.
+                </p>
+              </Card>
+            </Tabs.Content>
+          </Tabs>
+        </Showcase>
       </Section>
 
       <Section title="Accessibility">

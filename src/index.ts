@@ -41,8 +41,8 @@ export { Skeleton } from './components/Skeleton';
 export type { SkeletonProps } from './components/Skeleton';
 
 /* ---------------------------------------------------------------- overlays */
-export { Dialog, Drawer, ConfirmDialog, DialogBody } from './components/Dialog';
-export type { DialogProps, DrawerProps, ConfirmDialogProps } from './components/Dialog';
+export { Dialog, Drawer, ConfirmDialog, DialogBody, AdaptiveDialog, ConfirmProvider, useConfirm } from './components/Dialog';
+export type { DialogProps, DrawerProps, ConfirmDialogProps, AdaptiveDialogProps, ConfirmOptions } from './components/Dialog';
 
 export { DropdownMenu } from './components/Menu';
 export type {
@@ -64,21 +64,21 @@ export type { PopoverProps, PopoverTriggerRenderProps } from './components/Popov
 export { Portal } from './components/Portal';
 
 /* ---------------------------------------------------------------- navigation */
-export { Tabs, useTabsContext } from './components/Tabs';
-export type { TabsProps, TabItem, TabsVariant, TabsSize } from './components/Tabs';
+export { Tabs, TabsList, TabsTrigger, TabsContent, useTabsContext } from './components/Tabs';
+export type { TabsProps, TabItem, TabsVariant, TabsSize, TabsListProps, TabsTriggerProps, TabsContentProps } from './components/Tabs';
 
 export { SidebarNav, PageHeader, Breadcrumbs } from './components/Navigation';
 export type { SidebarNavProps, NavItem, NavGroup, PageHeaderProps, BreadcrumbsProps, BreadcrumbItem } from './components/Navigation';
 
-export { DataTable, Pagination } from './components/DataTable';
+export { DataTable, Pagination, exportToCsv } from './components/DataTable';
 export type { DataTableProps, Column, SortState, SortDirection, PaginationProps } from './components/DataTable';
 
 /* ---------------------------------------------------------------- feedback */
 export { Spinner, LoadingRow, Alert, EmptyState, Progress, Stat, Kbd } from './components/Feedback';
 export type { SpinnerProps, AlertProps, AlertTone, AlertVariant, EmptyStateProps, ProgressProps, ProgressSegment, StatProps } from './components/Feedback';
 
-export { ToastProvider, useToast } from './components/Toast';
-export type { ToastOptions, ToastTone, ToastProviderProps, ToastPlacement } from './components/Toast';
+export { ToastProvider, useToast, toast } from './components/Toast';
+export type { ToastOptions, ToastTone, ToastProviderProps, ToastPlacement, ToastInput, ToastPromiseOptions, ToastFunction } from './components/Toast';
 
 /* ---------------------------------------------------------------- theming */
 export {
@@ -134,8 +134,8 @@ export type { ClickOutsideTarget } from './hooks/useClickOutside';
 export { Command, useCommandShortcut } from './components/Command';
 export type { CommandProps, CommandItem } from './components/Command';
 
-export { Accordion } from './components/Accordion';
-export type { AccordionProps, AccordionItem } from './components/Accordion';
+export { Accordion, AccordionItemComponent, AccordionTrigger, AccordionContent, useAccordionContext } from './components/Accordion';
+export type { AccordionProps, AccordionItem, AccordionItemComponentProps, AccordionTriggerProps, AccordionContentProps } from './components/Accordion';
 
 export { Slider, RangeSlider } from './components/Slider';
 export type { SliderProps, RangeSliderProps, SliderMark } from './components/Slider';

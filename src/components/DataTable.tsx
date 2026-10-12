@@ -1,3 +1,5 @@
+'use client';
+
 import { Fragment, useId, useState, type ReactNode } from 'react';
 import { cn } from '../utils/cn';
 import { Checkbox } from './Choice';
@@ -42,6 +44,10 @@ export interface DataTableProps<T> {
   loadingRows?: number;
   emptyState?: ReactNode;
   toolbar?: ReactNode;
+  /** Integrated pagination configuration automatically rendered in the table footer. */
+  pagination?: PaginationProps | false;
+  /** Bulk actions rendered when one or more rows are selected. */
+  bulkActions?: ReactNode | ((selectedKeys: string[]) => ReactNode);
   footer?: ReactNode;
   onRowClick?: (row: T, index: number) => void;
   stickyHeader?: boolean;
@@ -89,6 +95,8 @@ export function DataTable<T>({
   emptyState,
   toolbar,
   footer,
+  pagination,
+  bulkActions,
   onRowClick,
   stickyHeader = true,
   density = 'comfortable',
@@ -156,11 +164,37 @@ export function DataTable<T>({
     return undefined;
   };
 
+
+  const bulkActionContent =
+    selected.size > 0 && bulkActions
+      ? typeof bulkActions === 'function'
+        ? bulkActions(Array.from(selected))
+        : bulkActions
+      : null;
+
+  const paginationNode = pagination ? <Pagination {...pagination} /> : null;
+  const effectiveFooter =
+    footer || paginationNode ? (
+      <div className="pui-table-footer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
+        <div>{footer}</div>
+        {paginationNode}
+      </div>
+    ) : null;
+
   const totalCols = columns.length + (selectable ? 1 : 0) + (expandedRowRender ? 1 : 0);
 
   return (
     <div className={cn('pui-table-wrap', className)}>
-      {toolbar && <div className="pui-table-toolbar">{toolbar}</div>}
+      {bulkActionContent ? (
+        <div className="pui-table-toolbar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--pui-brand-subtle, #f0fdf4)', padding: '0.625rem 1rem', borderRadius: 'var(--pui-radius-md, 8px)', border: '1px solid var(--pui-brand-base, #16a34a)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600, fontSize: '0.875rem' }}>
+            <span>{selected.size} {selected.size === 1 ? 'row' : 'rows'} selected</span>
+          </div>
+          <div>{bulkActionContent}</div>
+        </div>
+      ) : toolbar ? (
+        <div className="pui-table-toolbar">{toolbar}</div>
+      ) : null}
 
       <table
         className={cn(
@@ -337,7 +371,7 @@ export function DataTable<T>({
       </table>
 
 
-      {footer && <div className="pui-table-footer">{footer}</div>}
+      {effectiveFooter}
 
       {loading && (
         <div className="pui-sr-only" role="status">
@@ -515,4 +549,50 @@ function buildPageRange(page: number, pageCount: number, siblings: number): (num
   if (showRightGap) items.push('ellipsis');
   items.push(pageCount);
   return items;
+}
+
+/**
+ * Browser CSV export utility for tabular data.
+ * Generates an RFC 4180 UTF-8 encoded CSV file and triggers a client download.
+ */
+export function exportToCsv<T>(
+  columns: readonly Column<T>[],
+  data: readonly T[],
+  filename = 'table-export.csv'
+): void {
+  if (typeof window === 'undefined') return;
+
+  const validCols = columns.filter((col) => col.accessor || col.id);
+  const header = validCols
+    .map((col) => {
+      const label = typeof col.header === 'string' ? col.header : col.id;
+      return `"${String(label).replace(/"/g, '""')}"`;
+    })
+    .join(',');
+
+  const rows = data.map((row) =>
+    validCols
+      .map((col) => {
+        let val: unknown = '';
+        if (col.accessor) {
+          val = col.accessor(row);
+        } else if (col.id in (row as Record<string, unknown>)) {
+          val = (row as Record<string, unknown>)[col.id];
+        }
+        const str = val === null || val === undefined ? '' : String(val);
+        return `"${str.replace(/"/g, '""')}"`;
+      })
+      .join(',')
+  );
+
+  const csv = '\uFEFF' + [header, ...rows].join('\r\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }
