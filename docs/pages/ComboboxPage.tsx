@@ -102,7 +102,60 @@ const CUSTOM_DEMO = `const [assignee, setAssignee] = useState('ada');
   )}
 />`;
 
+
+const CREATABLE_DEMO = `const [tags, setTags] = useState(['frontend', 'typescript']);
+const [options, setOptions] = useState([
+  { value: 'frontend', label: 'frontend' },
+  { value: 'typescript', label: 'typescript' },
+  { value: 'backend', label: 'backend' },
+  { value: 'performance', label: 'performance' },
+]);
+
+<Combobox
+  label="Project Labels"
+  placeholder="Type a tag or create new..."
+  multiple
+  creatable
+  values={tags}
+  onValuesChange={setTags}
+  options={options}
+  onCreateOption={(newTag) => {
+    setOptions((prev) => [...prev, { value: newTag, label: newTag }]);
+    setTags((prev) => [...prev, newTag]);
+  }}
+  hint="Type any custom tag and press Enter to create it on the fly."
+/>`;
+
+const ASYNC_DEMO = `const [loading, setLoading] = useState(false);
+const [results, setResults] = useState(initialResults);
+
+<Combobox
+  label="Remote Package Registry"
+  placeholder="Search npm packages..."
+  options={results}
+  loading={loading}
+  filterOptions={false}
+  onSearchChange={(query) => {
+    setLoading(true);
+    // Simulate debounced remote API fetch
+    setTimeout(() => {
+      setResults(fetchPackages(query));
+      setLoading(false);
+    }, 400);
+  }}
+/>`;
+
 export function ComboboxPage() {
+  const [creatableTags, setCreatableTags] = useState(['frontend', 'typescript']);
+  const [creatableOptions, setCreatableOptions] = useState([
+    { value: 'frontend', label: 'frontend' },
+    { value: 'typescript', label: 'typescript' },
+    { value: 'backend', label: 'backend' },
+    { value: 'performance', label: 'performance' },
+  ]);
+
+  const [asyncLoading, setAsyncLoading] = useState(false);
+  const [asyncResults, setAsyncResults] = useState(TECH_OPTIONS);
   const [country, setCountry] = useState('lk');
   const [selectedTech, setSelectedTech] = useState(['react', 'nextjs']);
   const [assignee, setAssignee] = useState('ada');

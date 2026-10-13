@@ -29,6 +29,7 @@ import { SurfacesPage } from './pages/Surfaces';
 import { SelectionPage } from './pages/Selection';
 import { InputsPage } from './pages/Inputs';
 import { FeedbackPage } from './pages/FeedbackPage';
+import { BlocksPage } from './pages/BlocksPage';
 
 import { AccordionPage } from './pages/components/AccordionPage';
 import { AlertPage } from './pages/components/AlertPage';
@@ -56,6 +57,7 @@ import { DockPage } from './pages/components/DockPage';
 import { DrawerPage } from './pages/components/DrawerPage';
 import { DropzonePage } from './pages/components/DropzonePage';
 import { EmptyStatePage } from './pages/components/EmptyStatePage';
+import { FormPage } from './pages/components/FormPage';
 import { GaugePage } from './pages/components/GaugePage';
 import { HoverCardPage } from './pages/components/HoverCardPage';
 import { IconButtonPage } from './pages/components/IconButtonPage';
@@ -160,6 +162,7 @@ export const DOC_GROUPS: DocGroup[] = [
       { id: 'dropdown-menu', title: 'Dropdown menu', Component: DropdownMenuPage },
       { id: 'dropzone', title: 'Dropzone', Component: DropzonePage },
       { id: 'empty-state', title: 'Empty state', Component: EmptyStatePage },
+      { id: 'form', title: 'Form', Component: FormPage },
       { id: 'gauge', title: 'Gauge', Component: GaugePage },
       { id: 'hover-card', title: 'Hover card', Component: HoverCardPage },
       { id: 'icon-button', title: 'Icon button', Component: IconButtonPage },
@@ -206,7 +209,10 @@ export const DOC_GROUPS: DocGroup[] = [
   },
   {
     label: 'Examples',
-    pages: [{ id: 'dashboard', title: 'Dashboard screen', Component: DashboardPage }],
+    pages: [
+      { id: 'dashboard', title: 'Dashboard screen', Component: DashboardPage },
+      { id: 'blocks', title: 'Production Blocks', Component: BlocksPage },
+    ],
   },
 ];
 

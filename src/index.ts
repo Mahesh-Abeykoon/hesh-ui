@@ -13,6 +13,9 @@ export { Button, IconButton, ButtonGroup } from './components/Button';
 export type { ButtonProps, ButtonVariant, ButtonSize, ButtonShape, IconButtonProps, ButtonGroupProps } from './components/Button';
 
 export { Input, Textarea, Select, FieldShell } from './components/Field';
+export { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage, useFormField } from './components/Form';
+export type { FormProps, FormFieldProps, FormFieldRenderProps, FormItemProps, FormLabelProps, FormControlProps, FormMessageProps } from './components/Form';
+
 export type { InputProps, TextareaProps, SelectProps, SelectOption, FieldBaseProps } from './components/Field';
 
 export { Checkbox, Radio, RadioGroup, Switch, ChoiceCard } from './components/Choice';
