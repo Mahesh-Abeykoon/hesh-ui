@@ -255,8 +255,8 @@
 
 .hero__btn-get-started:hover {
   background: #f8fafc !important;
-  border-color: rgba(56, 189, 248, 0.8) !important;
-  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4), 0 6px 20px -2px rgba(37, 150, 244, 0.25), 0 0 18px -2px rgba(236, 72, 153, 0.3) !important;
+  border-color: rgba(148, 163, 184, 0.8) !important;
+  box-shadow: 0 6px 20px -2px rgba(15, 23, 42, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06) !important;
   transform: translateY(-1px);
 }
 
@@ -271,8 +271,8 @@
 :root[data-theme='dark'] .hero__btn-get-started:hover,
 [data-pui-theme='dark'] .hero__btn-get-started:hover {
   background: #f4f4f5 !important;
-  border-color: rgba(186, 230, 253, 0.9) !important;
-  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.6), 0 0 32px -2px rgba(56, 189, 248, 0.45), 0 0 28px -3px rgba(244, 114, 182, 0.4) !important;
+  border-color: rgba(255, 255, 255, 1) !important;
+  box-shadow: 0 0 24px -2px rgba(255, 255, 255, 0.25), 0 6px 18px rgba(0, 0, 0, 0.6) !important;
   transform: translateY(-1px);
 }
 
@@ -327,8 +327,8 @@
 }
 
 .hero__install-box:hover {
-  border-color: rgba(56, 189, 248, 0.75);
-  box-shadow: var(--pui-glow-hover-radiant, var(--pui-shadow-md));
+  border-color: var(--pui-border-strong);
+  box-shadow: var(--pui-shadow-md);
   transform: translateY(-1px);
 }
 
@@ -555,8 +555,8 @@
 
 .why__card:hover {
   transform: translateY(-3px);
-  border-color: rgba(56, 189, 248, 0.7);
-  box-shadow: var(--pui-glow-hover-radiant, var(--pui-shadow-lg));
+  border-color: var(--pui-border-strong);
+  box-shadow: var(--pui-shadow-lg);
 }
 
 .why__card::before {
@@ -593,8 +593,8 @@
 }
 
 .compare-table-wrap:hover {
-  border-color: rgba(56, 189, 248, 0.6);
-  box-shadow: var(--pui-glow-hover-radiant, var(--pui-shadow-md));
+  border-color: var(--pui-border-strong);
+  box-shadow: var(--pui-shadow-md);
 }
 
 .compare-table {
@@ -655,8 +655,8 @@
 }
 
 .cta:hover {
-  border-color: rgba(56, 189, 248, 0.65);
-  box-shadow: var(--pui-glow-hover-radiant, var(--pui-shadow-lg));
+  border-color: var(--pui-border-strong);
+  box-shadow: var(--pui-shadow-lg);
 }
 
 .cta__head {

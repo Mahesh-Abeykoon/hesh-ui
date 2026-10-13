@@ -604,8 +604,8 @@ input:focus-visible + .pui-choice__box {
 .pui-card--elevated { box-shadow: var(--pui-shadow-lg); }
 .pui-card--interactive { cursor: pointer; text-align: start; }
 .pui-card--interactive:hover {
-  box-shadow: var(--pui-glow-hover-radiant, var(--pui-shadow-md));
-  border-color: rgba(56, 189, 248, 0.65);
+  box-shadow: var(--pui-shadow-md);
+  border-color: var(--pui-border-strong);
   transform: translateY(-2px);
 }
 .pui-card--interactive:active { transform: translateY(0); }
