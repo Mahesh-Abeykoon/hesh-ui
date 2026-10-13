@@ -304,6 +304,66 @@ export function Stat({ label, value, delta, deltaLabel, children, size = 'md', c
 
 /* ------------------------------------------------------------------ Kbd */
 
-export function Kbd({ children }: { children: ReactNode }) {
-  return <kbd className="pui-kbd">{children}</kbd>;
+export interface KbdProps extends HTMLAttributes<HTMLElement> {
+  size?: 'sm' | 'md' | 'lg';
+  /** Shortcut string like "mod+k", "ctrl+shift+p" */
+  shortcut?: string;
+  children?: ReactNode;
+}
+
+export function Kbd({ size = 'md', shortcut, children, className, ...props }: KbdProps) {
+  if (shortcut) {
+    const isMac = typeof navigator !== 'undefined' && /Mac|iPod|iPhone|iPad/.test(navigator.platform || '');
+    const keys = shortcut.split('+').map((k) => k.trim());
+    return (
+      <span className="pui-kbd-group" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
+        {keys.map((key, i) => {
+          let label = key;
+          const lower = key.toLowerCase();
+          if (lower === 'mod' || lower === 'meta' || lower === 'cmd' || lower === 'command') {
+            label = isMac ? '⌘' : 'Ctrl';
+          } else if (lower === 'shift') {
+            label = isMac ? '⇧' : 'Shift';
+          } else if (lower === 'alt' || lower === 'option') {
+            label = isMac ? '⌥' : 'Alt';
+          } else if (lower === 'ctrl' || lower === 'control') {
+            label = isMac ? '⌃' : 'Ctrl';
+          } else if (lower === 'enter') {
+            label = '↵';
+          } else {
+            label = key.toUpperCase();
+          }
+
+          return (
+            <kbd
+              key={i}
+              className={cn(
+                'pui-kbd',
+                size === 'sm' && 'pui-kbd--sm',
+                size === 'lg' && 'pui-kbd--lg',
+                className
+              )}
+              {...props}
+            >
+              {label}
+            </kbd>
+          );
+        })}
+      </span>
+    );
+  }
+
+  return (
+    <kbd
+      className={cn(
+        'pui-kbd',
+        size === 'sm' && 'pui-kbd--sm',
+        size === 'lg' && 'pui-kbd--lg',
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </kbd>
+  );
 }

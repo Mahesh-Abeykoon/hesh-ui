@@ -1,4 +1,4 @@
-import { CopyButton, CodeSnippet } from '../../../src/index';
+import { CopyButton, CodeSnippet, CodeGroup } from '../../../src/index';
 import { Callout, PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 
@@ -46,6 +46,35 @@ export function CopyButtonPage() {
               code={`npm install hesh
 npm run dev -- --open
 # Ready at http://localhost:5173`}
+            />
+          </div>
+        </Showcase>
+      </Section>
+
+      <Section
+        title="Multi-Tab <CodeGroup> (Package Managers & Stacks)"
+        description="Tabbed code blocks for package managers (npm, pnpm, yarn, bun) or multi-language guides with single-click active copy."
+      >
+        <Showcase
+          code={`<CodeGroup
+  tabs={[
+    { label: 'npm', code: 'npm install hesh-ui', language: 'bash' },
+    { label: 'pnpm', code: 'pnpm add hesh-ui', language: 'bash' },
+    { label: 'yarn', code: 'yarn add hesh-ui', language: 'bash' },
+    { label: 'bun', code: 'bun add hesh-ui', language: 'bash' },
+  ]}
+/>`}
+          defaultOpen
+          width="md"
+        >
+          <div style={{ width: '100%', maxWidth: '32rem' }}>
+            <CodeGroup
+              tabs={[
+                { label: 'npm', code: 'npx -y hesh add form combobox datatable', language: 'bash' },
+                { label: 'pnpm', code: 'pnpm dlx hesh add form combobox datatable', language: 'bash' },
+                { label: 'yarn', code: 'yarn dlx hesh add form combobox datatable', language: 'bash' },
+                { label: 'bun', code: 'bunx hesh add form combobox datatable', language: 'bash' },
+              ]}
             />
           </div>
         </Showcase>

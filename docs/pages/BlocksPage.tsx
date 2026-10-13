@@ -366,6 +366,289 @@ function BlockCrudTable() {
   );
 }
 
+
+/* ---------------------------------------------------------------- Block 5: Pricing */
+
+function BlockPricing() {
+  const [annual, setAnnual] = useState(true);
+
+  const tiers = [
+    {
+      name: 'Starter',
+      price: annual ? '$0' : '$0',
+      period: annual ? 'forever free' : 'forever free',
+      desc: 'Perfect for indie hackers, hobby projects, and open source prototypes.',
+      popular: false,
+      features: [
+        'Up to 3 production projects',
+        'Community Discord & Forum support',
+        '10,000 monthly API invocations',
+        'Global edge cache acceleration',
+      ],
+      buttonText: 'Start for Free',
+      buttonVariant: 'secondary' as const,
+    },
+    {
+      name: 'Professional',
+      price: annual ? '$24' : '$29',
+      period: 'per month',
+      desc: 'For high-velocity engineering teams scaling critical SaaS workloads.',
+      popular: true,
+      features: [
+        'Unlimited active projects',
+        '24/7 priority SLA support',
+        '1,000,000 monthly API invocations',
+        'Custom domain SSL provisioning',
+        'Automated database snapshots',
+        'Advanced anomaly alert webhooks',
+      ],
+      buttonText: 'Upgrade to Pro',
+      buttonVariant: 'primary' as const,
+    },
+    {
+      name: 'Enterprise',
+      price: annual ? '$99' : '$119',
+      period: 'per month, billed annually',
+      desc: 'Enterprise security, compliance, SSO governance, and dedicated infrastructure.',
+      popular: false,
+      features: [
+        'Isolated private VPC clusters',
+        '99.99% uptime guarantee SLA',
+        'SAML, Okta, and Google SSO',
+        'HIPAA & SOC 2 Type II compliance',
+        'Dedicated Solutions Architect',
+      ],
+      buttonText: 'Contact Sales',
+      buttonVariant: 'outline' as const,
+    },
+  ];
+
+  return (
+    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2rem' }}>
+        <span style={{ fontSize: '0.875rem', fontWeight: annual ? 500 : 600 }}>Monthly</span>
+        <Switch checked={annual} onCheckedChange={setAnnual} />
+        <span style={{ fontSize: '0.875rem', fontWeight: annual ? 600 : 500 }}>
+          Annual Billing
+        </span>
+        <Badge tone="success" size="sm" pill>
+          Save 20%
+        </Badge>
+      </div>
+
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gap: '1.25rem',
+          width: '100%',
+        }}
+      >
+        {tiers.map((t) => (
+          <Card
+            key={t.name}
+            padded
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              position: 'relative',
+              borderColor: t.popular ? 'var(--pui-primary)' : undefined,
+              boxShadow: t.popular ? '0 0 0 2px var(--pui-primary), var(--pui-shadow-lg)' : undefined,
+            }}
+          >
+            <div>
+              {t.popular && (
+                <div style={{ position: 'absolute', top: '-11px', right: '1.25rem' }}>
+                  <Badge tone="primary" size="sm">
+                    Most Popular
+                  </Badge>
+                </div>
+              )}
+              <h4 style={{ margin: 0, fontSize: '1.125rem' }}>{t.name}</h4>
+              <p className="prose" style={{ fontSize: '0.8125rem', marginTop: '0.375rem', minHeight: '2.5rem' }}>
+                {t.desc}
+              </p>
+
+              <div style={{ marginTop: '1rem', marginBottom: '1.25rem' }}>
+                <span style={{ fontSize: '2rem', fontWeight: 700 }}>{t.price}</span>
+                <span style={{ fontSize: '0.8125rem', color: 'var(--pui-text-muted)', marginLeft: '0.375rem' }}>
+                  /{t.period}
+                </span>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem', borderTop: '1px solid var(--pui-border)', paddingTop: '1rem' }}>
+                {t.features.map((f, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontSize: '0.8125rem' }}>
+                    <span style={{ color: 'var(--pui-success)', marginTop: '2px' }}>
+                      <CheckIcon />
+                    </span>
+                    <span>{f}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <Button
+              variant={t.buttonVariant}
+              fullWidth
+              style={{ marginTop: '1.75rem' }}
+              onClick={() => toast.success(`Selected ${t.name} plan`, 'Redirecting to checkout...')}
+            >
+              {t.buttonText}
+            </Button>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------- Block 6: Onboarding */
+
+function BlockEmptyStateOnboarding() {
+  const [step1Done, setStep1Done] = useState(true);
+  const [step2Done, setStep2Done] = useState(false);
+  const [step3Done, setStep3Done] = useState(false);
+
+  const completedCount = [step1Done, step2Done, step3Done].filter(Boolean).length;
+
+  return (
+    <Card
+      padded
+      style={{
+        width: '100%',
+        maxWidth: '680px',
+        margin: '0 auto',
+        borderStyle: 'dashed',
+        borderWidth: '2px',
+      }}
+    >
+      <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+        <Badge tone="info" size="sm" pill style={{ marginBottom: '0.5rem' }}>
+          Workspace Setup Checklist
+        </Badge>
+        <h3 style={{ margin: 0, fontSize: '1.25rem' }}>Welcome to your new deployment cluster</h3>
+        <p className="prose" style={{ fontSize: '0.875rem', marginTop: '0.375rem' }}>
+          Complete the foundational steps below to trigger your first zero-downtime release.
+        </p>
+        <div style={{ marginTop: '0.75rem', fontSize: '0.8125rem', color: 'var(--pui-primary)', fontWeight: 600 }}>
+          {completedCount} of 3 tasks completed ({Math.round((completedCount / 3) * 100)}%)
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+        {/* Step 1 */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0.75rem 1rem',
+            borderRadius: 'var(--pui-radius-md)',
+            background: 'var(--pui-surface-subtle)',
+            border: '1px solid var(--pui-border)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <Checkbox
+              checked={step1Done}
+              onChange={(e) => setStep1Done(e.target.checked)}
+            />
+            <div>
+              <div style={{ fontWeight: 600, fontSize: '0.875rem', textDecoration: step1Done ? 'line-through' : 'none' }}>
+                Connect GitHub Repository
+              </div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--pui-text-muted)' }}>
+                Linked to <code>org/core-platform-engine</code>
+              </div>
+            </div>
+          </div>
+          <Badge tone={step1Done ? 'success' : 'neutral'} size="sm">
+            {step1Done ? 'Connected' : 'Pending'}
+          </Badge>
+        </div>
+
+        {/* Step 2 */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0.75rem 1rem',
+            borderRadius: 'var(--pui-radius-md)',
+            background: 'var(--pui-surface-subtle)',
+            border: '1px solid var(--pui-border)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <Checkbox
+              checked={step2Done}
+              onChange={(e) => setStep2Done(e.target.checked)}
+            />
+            <div>
+              <div style={{ fontWeight: 600, fontSize: '0.875rem', textDecoration: step2Done ? 'line-through' : 'none' }}>
+                Configure Production Environment Secrets
+              </div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--pui-text-muted)' }}>
+                Add DATABASE_URL, API_KEY, and ENCRYPTION_SALT
+              </div>
+            </div>
+          </div>
+          <Button
+            size="sm"
+            variant={step2Done ? 'outline' : 'secondary'}
+            onClick={() => {
+              setStep2Done(true);
+              toast.success('Environment secrets saved!');
+            }}
+          >
+            {step2Done ? 'Configured' : 'Add Secrets'}
+          </Button>
+        </div>
+
+        {/* Step 3 */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0.75rem 1rem',
+            borderRadius: 'var(--pui-radius-md)',
+            background: 'var(--pui-surface-subtle)',
+            border: '1px solid var(--pui-border)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <Checkbox
+              checked={step3Done}
+              onChange={(e) => setStep3Done(e.target.checked)}
+            />
+            <div>
+              <div style={{ fontWeight: 600, fontSize: '0.875rem', textDecoration: step3Done ? 'line-through' : 'none' }}>
+                Deploy First Release to Edge Network
+              </div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--pui-text-muted)' }}>
+                Build and propagate container to all global POPs
+              </div>
+            </div>
+          </div>
+          <Button
+            size="sm"
+            variant="primary"
+            onClick={() => {
+              setStep3Done(true);
+              toast.success('Deployment dispatched to cluster!');
+            }}
+          >
+            {step3Done ? 'Deployed' : 'Deploy Now'}
+          </Button>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
 /* ---------------------------------------------------------------- Page Component */
 
 export function BlocksPage() {
@@ -408,6 +691,23 @@ export function BlocksPage() {
       >
         <Showcase code="<BlockCrudTable />" defaultOpen width="full">
           <BlockCrudTable />
+        </Showcase>
+      </Section>
+      <Section
+        title="5. SaaS Pricing Tier Matrix (block-pricing)"
+        description="Responsive multi-card tier selector with annual discount switch, popular tier highlight glow, and feature checklists."
+      >
+        <Showcase code="<BlockPricing />" defaultOpen width="full">
+          <BlockPricing />
+        </Showcase>
+      </Section>
+
+      <Section
+        title="6. Workspace Setup & Onboarding Checklist (block-onboarding)"
+        description="Clean empty state onboarding card with interactive step checklist, completion percentage tracker, and action triggers."
+      >
+        <Showcase code="<BlockEmptyStateOnboarding />" defaultOpen width="lg">
+          <BlockEmptyStateOnboarding />
         </Showcase>
       </Section>
     </DocPage>

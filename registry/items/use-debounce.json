@@ -1,0 +1,17 @@
+{
+  "name": "use-debounce",
+  "title": "useDebounce",
+  "type": "hook",
+  "category": "Hooks",
+  "description": "Custom React hook useDebounce",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "useDebounce.ts",
+      "target": "hooks/useDebounce.ts",
+      "content": "import { useEffect, useState } from 'react';\n\n/**\n * React hook that returns a debounced version of any value.\n *\n * @param value - The fast-changing value (e.g. search input text)\n * @param delay - Debounce duration in milliseconds (default: 300ms)\n */\nexport function useDebounce<T>(value: T, delay = 300): T {\n  const [debouncedValue, setDebouncedValue] = useState<T>(value);\n\n  useEffect(() => {\n    const handler = setTimeout(() => {\n      setDebouncedValue(value);\n    }, delay);\n\n    return () => {\n      clearTimeout(handler);\n    };\n  }, [value, delay]);\n\n  return debouncedValue;\n}\n",
+      "type": "hook"
+    }
+  ]
+}

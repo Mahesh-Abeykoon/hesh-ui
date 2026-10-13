@@ -4739,3 +4739,43 @@ input:focus-visible + .pui-choice__box {
 
 
 
+
+/* CodeGroup Tabs */
+.pui-code-snippet__tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.pui-code-snippet__tab {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--pui-radius-md);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+.pui-code-snippet__tab:hover {
+  color: #f1f5f9;
+  background: rgba(255, 255, 255, 0.05);
+}
+.pui-code-snippet__tab[data-active="true"] {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  font-weight: 600;
+}
+
+/* Kbd Sizing */
+.pui-kbd--sm {
+  font-size: 0.6875rem;
+  min-width: 1.125rem;
+  padding: 0 0.25rem;
+}
+.pui-kbd--lg {
+  font-size: 0.875rem;
+  min-width: 1.625rem;
+  padding: 0.125rem 0.5rem;
+}

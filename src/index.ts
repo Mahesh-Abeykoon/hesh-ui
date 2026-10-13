@@ -40,8 +40,8 @@ export type { AvatarProps, AvatarGroupProps, AvatarSize, AvatarStatus } from './
 export { Separator } from './components/Separator';
 export type { SeparatorProps } from './components/Separator';
 
-export { Skeleton } from './components/Skeleton';
-export type { SkeletonProps } from './components/Skeleton';
+export { Skeleton, SkeletonAvatar, SkeletonText, SkeletonCard, SkeletonTable } from './components/Skeleton';
+export type { SkeletonProps, SkeletonAvatarProps, SkeletonTextProps, SkeletonCardProps, SkeletonTableProps } from './components/Skeleton';
 
 /* ---------------------------------------------------------------- overlays */
 export { Dialog, Drawer, ConfirmDialog, DialogBody, AdaptiveDialog, ConfirmProvider, useConfirm } from './components/Dialog';
@@ -78,7 +78,7 @@ export type { DataTableProps, Column, SortState, SortDirection, PaginationProps 
 
 /* ---------------------------------------------------------------- feedback */
 export { Spinner, LoadingRow, Alert, EmptyState, Progress, Stat, Kbd } from './components/Feedback';
-export type { SpinnerProps, AlertProps, AlertTone, AlertVariant, EmptyStateProps, ProgressProps, ProgressSegment, StatProps } from './components/Feedback';
+export type { SpinnerProps, AlertProps, AlertTone, AlertVariant, EmptyStateProps, ProgressProps, ProgressSegment, StatProps, KbdProps } from './components/Feedback';
 
 export { ToastProvider, useToast, toast } from './components/Toast';
 export type { ToastOptions, ToastTone, ToastProviderProps, ToastPlacement, ToastInput, ToastPromiseOptions, ToastFunction } from './components/Toast';
@@ -209,8 +209,8 @@ export type { ColorPickerProps } from './components/ColorPicker';
 export { CopyButton } from './components/CopyButton';
 export type { CopyButtonProps } from './components/CopyButton';
 
-export { CodeSnippet } from './components/CodeSnippet';
-export type { CodeSnippetProps } from './components/CodeSnippet';
+export { CodeSnippet, CodeGroup } from './components/CodeSnippet';
+export type { CodeSnippetProps, CodeGroupProps, CodeTab } from './components/CodeSnippet';
 
 export { Collapsible, CollapsibleTrigger, CollapsibleContent } from './components/Collapsible';
 export type { CollapsibleProps, CollapsibleTriggerProps, CollapsibleContentProps } from './components/Collapsible';
@@ -276,3 +276,9 @@ export * from './components/icons';
 
 
 
+
+export { useMediaQuery } from './hooks/useMediaQuery';
+export { useDebounce } from './hooks/useDebounce';
+export { useLocalStorage } from './hooks/useLocalStorage';
+export { useClipboard } from './hooks/useClipboard';
+export type { UseClipboardOptions, UseClipboardReturn } from './hooks/useClipboard';

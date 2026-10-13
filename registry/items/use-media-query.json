@@ -1,0 +1,17 @@
+{
+  "name": "use-media-query",
+  "title": "useMediaQuery",
+  "type": "hook",
+  "category": "Hooks",
+  "description": "Custom React hook useMediaQuery",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "useMediaQuery.ts",
+      "target": "hooks/useMediaQuery.ts",
+      "content": "import { useEffect, useState } from 'react';\n\n/**\n * React hook that tracks whether a CSS media query matches.\n * Fully SSR-safe: returns false or serverFallback during server render.\n *\n * @param query - The media query string (e.g., '(max-width: 768px)' or '(prefers-color-scheme: dark)')\n * @param serverFallback - Initial value during SSR or before hydration (default: false)\n */\nexport function useMediaQuery(query: string, serverFallback = false): boolean {\n  const [matches, setMatches] = useState<boolean>(() => {\n    if (typeof window !== 'undefined' && 'matchMedia' in window) {\n      return window.matchMedia(query).matches;\n    }\n    return serverFallback;\n  });\n\n  useEffect(() => {\n    if (typeof window === 'undefined' || !('matchMedia' in window)) {\n      return;\n    }\n\n    const mediaQueryList = window.matchMedia(query);\n    const updateMatch = (event: MediaQueryListEvent | MediaQueryList) => {\n      setMatches(event.matches);\n    };\n\n    setMatches(mediaQueryList.matches);\n\n    if (typeof mediaQueryList.addEventListener === 'function') {\n      mediaQueryList.addEventListener('change', updateMatch);\n      return () => mediaQueryList.removeEventListener('change', updateMatch);\n    } else {\n      // Fallback for older Safari\n      mediaQueryList.addListener(updateMatch);\n      return () => mediaQueryList.removeListener(updateMatch);\n    }\n  }, [query]);\n\n  return matches;\n}\n",
+      "type": "hook"
+    }
+  ]
+}
