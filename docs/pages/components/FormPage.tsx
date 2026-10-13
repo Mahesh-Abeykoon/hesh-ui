@@ -71,7 +71,7 @@ function ContactForm() {
       </FormField>
 
       <FormField name="email" error={errors.email}>
-        <FormItem error={errors.email}>
+        <FormItem>
           <FormLabel required>Business Email</FormLabel>
           <FormControl>
             <Input name="email" type="email" placeholder="sarah@cyberdyne.ai" required />
@@ -113,7 +113,7 @@ export function ProfileForm() {
         name="username"
         error={form.formState.errors.username?.message}
         render={({ field }) => (
-          <FormItem error={form.formState.errors.username?.message}>
+          <FormItem>
             <FormLabel required>Username</FormLabel>
             <FormControl>
               <Input {...field} placeholder="johndoe" />
@@ -184,7 +184,7 @@ export function FormPage() {
                 </FormField>
 
                 <FormField name="email" error={errors.email}>
-                  <FormItem error={errors.email}>
+                  <FormItem>
                     <FormLabel required>Business Email</FormLabel>
                     <FormControl>
                       <Input
@@ -218,7 +218,7 @@ export function FormPage() {
                 </FormField>
 
                 <FormField name="message" error={errors.message}>
-                  <FormItem error={errors.message}>
+                  <FormItem>
                     <FormLabel required>Project Requirements</FormLabel>
                     <FormControl>
                       <Textarea

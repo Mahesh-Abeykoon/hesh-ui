@@ -242,7 +242,22 @@
 /* ==========================================================================
    FIELD / INPUT / TEXTAREA / SELECT
    ========================================================================== */
+.pui-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pui-space-4);
+  width: 100%;
+}
+
 .pui-field { display: flex; flex-direction: column; gap: var(--pui-space-1_5); min-width: 0; }
+
+.pui-field[data-invalid] .pui-control {
+  border-color: var(--pui-danger);
+}
+.pui-field[data-invalid] .pui-control:focus-visible {
+  outline-color: var(--pui-danger);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--pui-danger) 22%, transparent);
+}
 
 .pui-label {
   font-size: var(--pui-text-sm);

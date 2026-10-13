@@ -19,19 +19,29 @@ import { AlertCircleIcon } from './icons';
 
 /* ---------------------------------------------------------------- Contexts */
 
-interface FormFieldContextValue {
+export interface FormFieldContextValue {
   name: string;
   id: string;
   errorId: string;
   descriptionId: string;
+  error?: ReactNode;
+  hint?: ReactNode;
 }
 
 const FormFieldContext = createContext<FormFieldContextValue | null>(null);
 
-export function useFormField() {
+export function useFormField(): FormFieldContextValue {
   const ctx = useContext(FormFieldContext);
+  const fallbackId = useId();
   if (!ctx) {
-    throw new Error('useFormField must be used inside a <FormField>.');
+    return {
+      name: '',
+      id: `pui-field-${fallbackId}`,
+      errorId: `pui-field-${fallbackId}-error`,
+      descriptionId: `pui-field-${fallbackId}-hint`,
+      error: undefined,
+      hint: undefined,
+    };
   }
   return ctx;
 }
@@ -43,7 +53,7 @@ export interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
   autoFocusError?: boolean;
 }
 
-export const Form = forwardRef<HTMLFormElement, FormProps>(function Form(
+const FormRoot = forwardRef<HTMLFormElement, FormProps>(function Form(
   { autoFocusError = true, onSubmit, className, children, ...props },
   ref
 ) {
@@ -57,7 +67,7 @@ export const Form = forwardRef<HTMLFormElement, FormProps>(function Form(
       const formEl = localRef.current;
       if (formEl) {
         const invalidEl = formEl.querySelector<HTMLElement>(
-          '[aria-invalid="true"], :invalid'
+          '[aria-invalid="true"], :invalid, [data-invalid]'
         );
         invalidEl?.focus();
       }
@@ -114,6 +124,8 @@ export function FormField({ name, error, hint, children, render }: FormFieldProp
     id,
     errorId,
     descriptionId,
+    error,
+    hint,
   };
 
   const describedBy = [error ? errorId : null, hint ? descriptionId : null]
@@ -154,11 +166,14 @@ export const FormItem = forwardRef<HTMLDivElement, FormItemProps>(function FormI
   { error, className, children, ...props },
   ref
 ) {
+  const field = useContext(FormFieldContext);
+  const isInvalid = Boolean(error !== undefined ? error : field?.error);
+
   return (
     <div
       ref={ref}
       className={cn('pui-field', className)}
-      data-invalid={error ? '' : undefined}
+      data-invalid={isInvalid ? '' : undefined}
       {...props}
     >
       {children}
@@ -205,19 +220,23 @@ export interface FormControlProps {
 }
 
 export function FormControl({ children }: FormControlProps) {
-  const { id, errorId, descriptionId } = useFormField();
+  const { id, errorId, descriptionId, error } = useFormField();
 
   if (!isValidElement(children)) return children;
 
-  const child = children as ReactElement<{ id?: string; 'aria-describedby'?: string }>;
+  const child = children as ReactElement<any>;
   const existingDescribedBy = child.props['aria-describedby'];
-  const describedBy = [existingDescribedBy, errorId, descriptionId]
+  const describedBy = [existingDescribedBy, error ? errorId : null, descriptionId]
     .filter(Boolean)
     .join(' ');
+
+  const isInvalid = Boolean(error) || child.props['aria-invalid'] === true || child.props['aria-invalid'] === 'true' || Boolean(child.props.invalid);
 
   return cloneElement(child, {
     id: child.props.id ?? id,
     'aria-describedby': describedBy || undefined,
+    'aria-invalid': isInvalid ? true : undefined,
+    invalid: isInvalid ? true : child.props.invalid,
   });
 }
 
@@ -249,15 +268,15 @@ export interface FormMessageProps extends HTMLAttributes<HTMLParagraphElement> {
 
 export const FormMessage = forwardRef<HTMLParagraphElement, FormMessageProps>(
   function FormMessage({ error, className, children, id: providedId, ...props }, ref) {
-    const { errorId } = useFormField();
-    const content = error ?? children;
+    const field = useContext(FormFieldContext);
+    const content = error ?? children ?? field?.error;
 
     if (!content) return null;
 
     return (
       <p
         ref={ref}
-        id={providedId ?? errorId}
+        id={providedId ?? field?.errorId}
         role="alert"
         className={cn('pui-error', className)}
         {...props}
@@ -268,3 +287,14 @@ export const FormMessage = forwardRef<HTMLParagraphElement, FormMessageProps>(
     );
   }
 );
+
+/* ---------------------------------------------------------------- Compound Export */
+
+export const Form = Object.assign(FormRoot, {
+  Field: FormField,
+  Item: FormItem,
+  Label: FormLabel,
+  Control: FormControl,
+  Description: FormDescription,
+  Message: FormMessage,
+});

@@ -60,7 +60,9 @@
     "test:smoke": "node scripts/smoke.mjs",
     "test:cli": "node scripts/test-cli.mjs",
     "test": "node scripts/smoke.mjs && node scripts/test-cli.mjs",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "check": "npm run typecheck && npm test"
   },
   "peerDependencies": {
     "react": ">=18.0.0",

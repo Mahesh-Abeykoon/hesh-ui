@@ -43,7 +43,7 @@ export interface DialogProps {
  * background scroll is locked, and the rest of the page is `aria-hidden`
  * while open.
  */
-export function Dialog({
+function DialogRoot({
   open,
   onClose,
   title,
@@ -368,3 +368,9 @@ export function useConfirm(): (options: ConfirmOptions) => Promise<boolean> {
   }
   return ctx.confirm;
 }
+
+export const Dialog = Object.assign(DialogRoot, {
+  Body: DialogBody,
+  Confirm: ConfirmDialog,
+  Adaptive: AdaptiveDialog,
+});
