@@ -1,5 +1,5 @@
 import { CopyButton, CodeSnippet, CodeGroup } from '../../../src/index';
-import { Callout, PropsTable, Showcase } from '../../components/Showcase';
+import { PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 
 const COPY_DEMO = `<CopyButton value="npm install hesh" label="Copy command" />`;

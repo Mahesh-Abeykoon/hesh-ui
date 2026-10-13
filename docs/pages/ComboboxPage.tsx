@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Badge, Button, Combobox, Separator } from '../../src/index';
-import { Callout, PropsTable, Showcase } from '../components/Showcase';
+import { Button, Combobox, Separator } from '../../src/index';
+import { PropsTable, Showcase } from '../components/Showcase';
 import { DocPage, Section } from '../components/DocPage';
 import { ComboboxWorkbench } from '../components/PropsWorkbench';
 

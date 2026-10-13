@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState, type ComponentType } from 'react';
 import { ThemeProvider, useTheme, ThemeSwitch } from '../src/index';
 import {
-  Badge,
   Button,
   Command,
   IconButton,

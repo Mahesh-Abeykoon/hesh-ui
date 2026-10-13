@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback, type CanvasHTMLAttributes } from 'react';
+import { useEffect, useRef, useCallback, type CanvasHTMLAttributes } from 'react';
 import { Portal } from './Portal';
 
 export interface ConfettiOrigin {

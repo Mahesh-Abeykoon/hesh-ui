@@ -1,5 +1,5 @@
 import { SidebarNav, HomeIcon, SettingsIcon, UsersIcon, BarChartIcon } from '../../../src/index';
-import { Callout, PropsTable, Showcase } from '../../components/Showcase';
+import { PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 
 const SIDEBAR_NAV_DEMO = `<SidebarNav

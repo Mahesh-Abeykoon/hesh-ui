@@ -1,5 +1,5 @@
-import { AspectRatio, Card } from '../../../src/index';
-import { Callout, PropsTable, Showcase } from '../../components/Showcase';
+import { AspectRatio } from '../../../src/index';
+import { PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 
 const DEMO = `<AspectRatio ratio={16 / 9}>

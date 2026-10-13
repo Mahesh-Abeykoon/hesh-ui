@@ -6,7 +6,7 @@ import { Portal } from './Portal';
 import { useFloating } from '../hooks/useFloating';
 import { useDismiss } from '../hooks/useDismiss';
 import { FieldShell } from './Field';
-import { CheckIcon, ChevronDownIcon, PlusIcon, SearchIcon, XIcon } from './icons';
+import { CheckIcon, ChevronDownIcon, SearchIcon, XIcon } from './icons';
 import { Spinner } from './Feedback';
 
 export interface ComboboxOption {

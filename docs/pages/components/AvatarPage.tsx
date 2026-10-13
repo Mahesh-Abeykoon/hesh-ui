@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Separator } from '../../../src/index';
+import { Avatar, AvatarGroup } from '../../../src/index';
 import { Callout, PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 import { AvatarWorkbench } from '../../components/PropsWorkbench';

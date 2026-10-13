@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Badge, Card, CardBody, Separator, Tabs } from '../../src/index';
+import { Badge, Card, Separator, Tabs } from '../../src/index';
 import { BarChartIcon, SettingsIcon, UsersIcon } from '../../src/index';
 import { Callout, PropsTable, Showcase } from '../components/Showcase';
 import { DocPage, Section } from '../components/DocPage';

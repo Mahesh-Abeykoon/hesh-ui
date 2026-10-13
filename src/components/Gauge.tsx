@@ -1,4 +1,4 @@
-import React, { forwardRef, type ReactNode, type HTMLAttributes } from 'react';
+import { forwardRef, type ReactNode, type HTMLAttributes } from 'react';
 import { cn } from '../utils/cn';
 
 export interface GaugeProps extends HTMLAttributes<HTMLDivElement> {

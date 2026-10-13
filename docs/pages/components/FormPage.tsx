@@ -12,7 +12,6 @@ import {
   Textarea,
   Button,
   Card,
-  Checkbox,
   toast,
 } from '../../../src/index';
 import { Callout, PropsTable, Showcase } from '../../components/Showcase';

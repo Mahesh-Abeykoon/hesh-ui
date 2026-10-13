@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ToggleGroup, ToggleGroupItem } from '../../../src/index';
-import { Callout, PropsTable, Showcase } from '../../components/Showcase';
+import { PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 
 const TOGGLE_GROUP_DEMO = `const [align, setAlign] = useState('left');

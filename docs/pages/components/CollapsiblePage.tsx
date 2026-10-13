@@ -1,11 +1,6 @@
 import { useState } from 'react';
-import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
-  Button,
-} from '../../../src/index';
-import { Callout, PropsTable, Showcase } from '../../components/Showcase';
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '../../../src/index';
+import { PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 
 const COLLAPSIBLE_DEMO = `const [open, setOpen] = useState(false);

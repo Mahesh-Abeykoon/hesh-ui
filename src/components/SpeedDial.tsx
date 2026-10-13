@@ -1,10 +1,4 @@
-import React, {
-  forwardRef,
-  useRef,
-  type ReactNode,
-  type HTMLAttributes,
-  type ButtonHTMLAttributes,
-} from 'react';
+import React, { forwardRef, useRef, type ReactNode, type HTMLAttributes } from 'react';
 import { useControllableState } from '../hooks/useControllableState';
 import { useDismiss } from '../hooks/useDismiss';
 import { PlusIcon } from './icons';

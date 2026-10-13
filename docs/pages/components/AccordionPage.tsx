@@ -1,10 +1,6 @@
-import React, { useState } from 'react';
-import { Accordion, Badge, Button } from '../../../src/index';
-import {
-  SettingsIcon,
-  LockIcon,
-  CheckIcon,
-} from '../../../src/index';
+import { useState } from 'react';
+import { Accordion, Badge } from '../../../src/index';
+import { SettingsIcon, LockIcon } from '../../../src/index';
 import { Callout, PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 

@@ -8,7 +8,6 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Combobox,
   DataTable,
   DropdownMenu,
   IconButton,
@@ -18,14 +17,12 @@ import {
   Separator,
   SidebarNav,
   Stat,
-  Tabs,
   ToastProvider,
   Tooltip,
   useToast,
   type Column,
 } from '../../src/index';
 import {
-  ArrowDownIcon,
   ArrowRightIcon,
   BarChartIcon,
   BellIcon,
@@ -38,7 +35,6 @@ import {
   SearchIcon,
   SettingsIcon,
   ZapIcon,
-  TrendingUpIcon,
   UsersIcon,
 } from '../../src/index';
 import { Showcase } from '../components/Showcase';

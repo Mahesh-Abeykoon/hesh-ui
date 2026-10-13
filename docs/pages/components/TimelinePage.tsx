@@ -1,5 +1,5 @@
 import { Timeline, TimelineItem } from '../../../src/index';
-import { Callout, PropsTable, Showcase } from '../../components/Showcase';
+import { PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 
 const TIMELINE_DEMO = `<Timeline>

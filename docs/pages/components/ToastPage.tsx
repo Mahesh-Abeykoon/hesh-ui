@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useToast, toast as globalToast, Button, type ToastTone, Badge } from '../../../src/index';
+import { useToast, Button, type ToastTone } from '../../../src/index';
 import { Callout, PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 

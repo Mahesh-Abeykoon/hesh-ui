@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Select, Badge } from '../../../src/index';
+import { Select } from '../../../src/index';
 import { Callout, PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 import { SelectWorkbench } from '../../components/PropsWorkbench';

@@ -1,10 +1,4 @@
-import {
-  createContext,
-  forwardRef,
-  useContext,
-  type ReactNode,
-  type KeyboardEvent,
-} from 'react';
+import { createContext, forwardRef, useContext, type ReactNode } from 'react';
 import { cn } from '../utils/cn';
 import { useControllableState } from '../hooks/useControllableState';
 

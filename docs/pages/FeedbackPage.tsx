@@ -2,8 +2,6 @@ import { useState } from 'react';
 import {
   Alert,
   Button,
-  Card,
-  CardBody,
   EmptyState,
   Progress,
   Spinner,

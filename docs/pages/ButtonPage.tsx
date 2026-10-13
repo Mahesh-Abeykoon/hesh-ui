@@ -3,13 +3,11 @@ import {
   Button,
   ButtonGroup,
   IconButton,
-  Tooltip,
   DropdownMenu,
   ChevronDownIcon,
   ZapIcon,
   ArrowRightIcon,
   PlusIcon,
-  TrashIcon,
   CheckIcon,
 } from '../../src/index';
 import { Callout, PropsTable, Showcase } from '../components/Showcase';

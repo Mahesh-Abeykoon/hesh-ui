@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Tour, Button, Card, Badge, ZapIcon, SettingsIcon, PaletteIcon } from '../../../src/index';
-import { Callout, PropsTable, Showcase } from '../../components/Showcase';
+import { PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 
 const TOUR_DEMO = `const [open, setOpen] = useState(false);

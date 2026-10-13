@@ -1,4 +1,4 @@
-import { useState, useRef, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { cn } from '../utils/cn';
 import { useControllableState } from '../hooks/useControllableState';
 

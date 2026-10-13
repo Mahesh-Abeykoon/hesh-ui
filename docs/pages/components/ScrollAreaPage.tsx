@@ -1,5 +1,5 @@
 import { ScrollArea } from '../../../src/index';
-import { Callout, PropsTable, Showcase } from '../../components/Showcase';
+import { PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 
 const SCROLL_DEMO = `<ScrollArea maxHeight={200} fadeEdges>

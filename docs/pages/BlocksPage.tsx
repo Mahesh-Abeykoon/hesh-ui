@@ -4,9 +4,7 @@ import {
   Badge,
   Button,
   Card,
-  CardBody,
   Checkbox,
-  Combobox,
   DataTable,
   Dropzone,
   Input,
@@ -24,14 +22,7 @@ import {
 } from '../../src/index';
 import { DocPage, Section } from '../components/DocPage';
 import { Showcase } from '../components/Showcase';
-import {
-    CheckIcon,
-  ChevronDownIcon,
-  PlusIcon,
-  SearchIcon,
-  SettingsIcon,
-  UsersIcon,
-} from '../../src/index';
+import { CheckIcon } from '../../src/index';
 
 /* ---------------------------------------------------------------- Block 1: Auth */
 

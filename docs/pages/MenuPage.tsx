@@ -4,7 +4,6 @@ import {
   Button,
   DropdownMenu,
   IconButton,
-  Separator,
   useToast,
   type MenuEntry,
 } from '../../src/index';
