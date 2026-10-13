@@ -10,7 +10,7 @@
     {
       "name": "useDebounce.ts",
       "target": "hooks/useDebounce.ts",
-      "content": "import { useEffect, useState } from 'react';\n\n/**\n * React hook that returns a debounced version of any value.\n *\n * @param value - The fast-changing value (e.g. search input text)\n * @param delay - Debounce duration in milliseconds (default: 300ms)\n */\nexport function useDebounce<T>(value: T, delay = 300): T {\n  const [debouncedValue, setDebouncedValue] = useState<T>(value);\n\n  useEffect(() => {\n    const handler = setTimeout(() => {\n      setDebouncedValue(value);\n    }, delay);\n\n    return () => {\n      clearTimeout(handler);\n    };\n  }, [value, delay]);\n\n  return debouncedValue;\n}\n",
+      "content": "import { useEffect, useState } from 'react';\r\n\r\n/**\r\n * React hook that returns a debounced version of any value.\r\n *\r\n * @param value - The fast-changing value (e.g. search input text)\r\n * @param delay - Debounce duration in milliseconds (default: 300ms)\r\n */\r\nexport function useDebounce<T>(value: T, delay = 300): T {\r\n  const [debouncedValue, setDebouncedValue] = useState<T>(value);\r\n\r\n  useEffect(() => {\r\n    const handler = setTimeout(() => {\r\n      setDebouncedValue(value);\r\n    }, delay);\r\n\r\n    return () => {\r\n      clearTimeout(handler);\r\n    };\r\n  }, [value, delay]);\r\n\r\n  return debouncedValue;\r\n}\r\n",
       "type": "hook"
     }
   ]
