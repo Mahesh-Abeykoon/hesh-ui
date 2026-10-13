@@ -17,7 +17,7 @@ import {
   useToast,
   PresetSwitch,
 } from '../../src/index';
-import { ArrowRightIcon, CheckIcon, ZapIcon } from '../../src/index';
+import { ArrowRightIcon, CheckIcon } from '../../src/index';
 
 /* ------------------------------------------------------------------ hero */
 
@@ -133,27 +133,19 @@ function Hero() {
       </div>
 
       <div className="hero__inner">
-        <div className="hero__brand-row">
-          <div className="hero__brand-logo-wrap">
-            <img
-              src="/docs/assets/logo/hesh-logo.png"
-              alt="Hesh UI"
-              width="48"
-              height="48"
-              className="hero__brand-logo"
-            />
-          </div>
-          <span className="hero__badge">
-            <ZapIcon size={13} />
-            Zero dependencies · 48 components · accessible by default
-          </span>
+        <div className="hero__title-row">
+          <img
+            src="/docs/assets/logo/hesh-logo.png"
+            alt="Hesh UI"
+            width="96" height="96"
+            className="hero__brand-logo"
+          />
+          <h1 className="hero__title">
+            <span>Ship interfaces that look</span>
+            <br />
+            <span className="hero__grad">designed, not defaulted.</span>
+          </h1>
         </div>
-
-        <h1 className="hero__title">
-          Ship interfaces that look
-          <br />
-          <span className="hero__grad">designed, not defaulted.</span>
-        </h1>
 
         <p className="hero__sub">
           A React component library where every interaction detail is already
