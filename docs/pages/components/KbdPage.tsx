@@ -1,5 +1,5 @@
 import { Kbd } from '../../../src/index';
-import { Callout, PropsTable, Showcase } from '../../components/Showcase';
+import { PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 
 const KBD_DEMO = `<p>Press <Kbd>⌘</Kbd> <Kbd>K</Kbd> to open the command palette.</p>

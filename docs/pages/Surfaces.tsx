@@ -15,7 +15,7 @@ import {
   Skeleton,
   Stat,
 } from '../../src/index';
-import { ArrowRightIcon, PlusIcon } from '../../src/index';
+import { ArrowRightIcon } from '../../src/index';
 import { Callout, PropsTable, Showcase } from '../components/Showcase';
 import { DocPage, Section } from '../components/DocPage';
 import { BadgeWorkbench } from '../components/PropsWorkbench';

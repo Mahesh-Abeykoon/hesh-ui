@@ -49,6 +49,7 @@ function getCategory(slug, type) {
 
     'input': 'Forms & Inputs',
     'field': 'Forms & Inputs',
+    'form': 'Forms & Inputs',
     'textarea': 'Forms & Inputs',
     'select': 'Forms & Inputs',
     'combobox': 'Forms & Inputs',

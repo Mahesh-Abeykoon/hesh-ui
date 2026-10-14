@@ -1,6 +1,6 @@
 {
   "name": "hesh-ui",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A high-performance React component library with polished defaults, token-driven theming, and built-in accessibility. Zero runtime dependencies beyond React.",
   "license": "MIT",
   "author": {
@@ -9,12 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Mahesh-Abeykoon/hesh.git"
+    "url": "git+https://github.com/Mahesh-Abeykoon/hesh-ui.git"
   },
   "bugs": {
-    "url": "https://github.com/Mahesh-Abeykoon/hesh/issues"
+    "url": "https://github.com/Mahesh-Abeykoon/hesh-ui/issues"
   },
-  "homepage": "https://github.com/Mahesh-Abeykoon/hesh#readme",
+  "homepage": "https://github.com/Mahesh-Abeykoon/hesh-ui#readme",
   "type": "module",
   "sideEffects": [
     "**/*.css"
@@ -60,7 +60,13 @@
     "test:smoke": "node scripts/smoke.mjs",
     "test:cli": "node scripts/test-cli.mjs",
     "test": "node scripts/smoke.mjs && node scripts/test-cli.mjs",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "check": "npm run typecheck && npm test",
+    "lint:unused": "node scripts/check-unused-imports.mjs",
+    "check:unused": "node scripts/check-unused-imports.mjs",
+    "lint:fix": "node scripts/fix-unused-imports.mjs",
+    "fix:unused": "node scripts/fix-unused-imports.mjs"
   },
   "peerDependencies": {
     "react": ">=18.0.0",

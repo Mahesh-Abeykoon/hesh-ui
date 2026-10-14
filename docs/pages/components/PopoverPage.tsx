@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Popover, Button, Switch, Input, Badge } from '../../../src/index';
+import { Popover, Button, Switch, Input } from '../../../src/index';
 import { Callout, PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 

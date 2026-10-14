@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, type HTMLAttributes, type ReactNode } from 'react';
+import { forwardRef, useState, type HTMLAttributes, type ReactNode } from 'react';
 import { cn } from '../utils/cn';
 import { XIcon, PaletteIcon, AlertCircleIcon, CheckCircleIcon, InfoIcon } from './icons';
 

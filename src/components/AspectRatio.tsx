@@ -1,4 +1,4 @@
-import React, { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
+import { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
 import { cn } from '../utils/cn';
 
 export interface AspectRatioProps extends HTMLAttributes<HTMLDivElement> {

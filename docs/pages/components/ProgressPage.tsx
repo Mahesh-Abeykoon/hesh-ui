@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Progress, Button, Badge } from '../../../src/index';
+import { Progress, Button } from '../../../src/index';
 import { Callout, PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 import { ProgressWorkbench } from '../../components/PropsWorkbench';

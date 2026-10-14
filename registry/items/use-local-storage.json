@@ -1,0 +1,17 @@
+{
+  "name": "use-local-storage",
+  "title": "useLocalStorage",
+  "type": "hook",
+  "category": "Hooks",
+  "description": "Custom React hook useLocalStorage",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "useLocalStorage.ts",
+      "target": "hooks/useLocalStorage.ts",
+      "content": "import { useCallback, useEffect, useState } from 'react';\r\n\r\n/**\r\n * SSR-safe, reactive localStorage hook with cross-tab sync and JSON serialization.\r\n *\r\n * @param key - The localStorage storage key\r\n * @param initialValue - Fallback value if no stored value exists\r\n */\r\nexport function useLocalStorage<T>(\r\n  key: string,\r\n  initialValue: T\r\n): [T, (value: T | ((val: T) => T)) => void, () => void] {\r\n  // Read stored value or fall back to initialValue\r\n  const readValue = useCallback((): T => {\r\n    if (typeof window === 'undefined') {\r\n      return initialValue;\r\n    }\r\n\r\n    try {\r\n      const item = window.localStorage.getItem(key);\r\n      return item ? (JSON.parse(item) as T) : initialValue;\r\n    } catch (error) {\r\n      console.warn(`[hesh-ui] Error reading localStorage key \"${key}\":`, error);\r\n      return initialValue;\r\n    }\r\n  }, [key, initialValue]);\r\n\r\n  const [storedValue, setStoredValue] = useState<T>(readValue);\r\n\r\n  // Set value function\r\n  const setValue = useCallback(\r\n    (value: T | ((val: T) => T)) => {\r\n      if (typeof window === 'undefined') {\r\n        console.warn(`[hesh-ui] Tried setting localStorage key \"${key}\" during SSR`);\r\n        return;\r\n      }\r\n\r\n      try {\r\n        const newValue = value instanceof Function ? value(storedValue) : value;\r\n        window.localStorage.setItem(key, JSON.stringify(newValue));\r\n        setStoredValue(newValue);\r\n\r\n        // Dispatch a custom storage event so other components in the same tab update\r\n        window.dispatchEvent(\r\n          new StorageEvent('storage', {\r\n            key,\r\n            newValue: JSON.stringify(newValue),\r\n          })\r\n        );\r\n      } catch (error) {\r\n        console.warn(`[hesh-ui] Error writing localStorage key \"${key}\":`, error);\r\n      }\r\n    },\r\n    [key, storedValue]\r\n  );\r\n\r\n  // Remove value function\r\n  const removeValue = useCallback(() => {\r\n    if (typeof window === 'undefined') return;\r\n\r\n    try {\r\n      window.localStorage.removeItem(key);\r\n      setStoredValue(initialValue);\r\n      window.dispatchEvent(\r\n        new StorageEvent('storage', {\r\n          key,\r\n          newValue: null,\r\n        })\r\n      );\r\n    } catch (error) {\r\n      console.warn(`[hesh-ui] Error removing localStorage key \"${key}\":`, error);\r\n    }\r\n  }, [key, initialValue]);\r\n\r\n  // Sync across tabs & windows via 'storage' event\r\n  useEffect(() => {\r\n    const handleStorageChange = (e: StorageEvent) => {\r\n      if (e.key === key) {\r\n        setStoredValue(readValue());\r\n      }\r\n    };\r\n\r\n    window.addEventListener('storage', handleStorageChange);\r\n    return () => window.removeEventListener('storage', handleStorageChange);\r\n  }, [key, readValue]);\r\n\r\n  return [storedValue, setValue, removeValue];\r\n}\r\n",
+      "type": "hook"
+    }
+  ]
+}

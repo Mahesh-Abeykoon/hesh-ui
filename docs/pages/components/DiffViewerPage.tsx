@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { DiffViewer, SegmentedControl, Card } from '../../../src/index';
-import { Callout, PropsTable, Showcase } from '../../components/Showcase';
+import { DiffViewer, SegmentedControl } from '../../../src/index';
+import { PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 
 const OLD_CODE = `function calculateTotal(items) {

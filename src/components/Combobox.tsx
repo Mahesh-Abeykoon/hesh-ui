@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useId, useMemo, useRef, useState, type ReactNode } from 'react';
 import { cn } from '../utils/cn';
 import { Portal } from './Portal';
@@ -55,6 +57,16 @@ export interface ComboboxProps {
   clearable?: boolean;
   className?: string;
   id?: string;
+  /** Callback fired as the user types, for asynchronous or server-side searching. */
+  onSearchChange?: (query: string) => void;
+  /** Whether to filter options client-side. Set to false when doing server-side search. @default true */
+  filterOptions?: boolean;
+  /** Allow users to create custom options by typing. */
+  creatable?: boolean;
+  /** Callback fired when a new custom option is created. */
+  onCreateOption?: (query: string) => void;
+  /** Custom renderer for the create option item. */
+  createMessage?: (query: string) => ReactNode;
 }
 
 /**

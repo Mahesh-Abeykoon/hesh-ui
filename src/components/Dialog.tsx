@@ -1,5 +1,10 @@
+'use client';
+
 import {
+  createContext,
   useCallback,
+  useContext,
+  useEffect,
   useId,
   useState,
   type HTMLAttributes,
@@ -38,7 +43,7 @@ export interface DialogProps {
  * background scroll is locked, and the rest of the page is `aria-hidden`
  * while open.
  */
-export function Dialog({
+function DialogRoot({
   open,
   onClose,
   title,
@@ -257,3 +262,115 @@ export function ConfirmDialog({
 export function DialogBody(props: HTMLAttributes<HTMLDivElement>) {
   return <div className="pui-dialog__body" {...props} />;
 }
+
+/* ---------------------------------------------------------------- Adaptive Dialog */
+
+export interface AdaptiveDialogProps extends DialogProps {
+  /** Viewport width in pixels below which the component renders as a bottom drawer. @default 640 */
+  breakpoint?: number;
+}
+
+/**
+ * Responsive modal dialog: renders as a standard centered Dialog on desktop screens,
+ * and seamlessly converts into a thumb-friendly bottom Drawer on mobile devices.
+ */
+export function AdaptiveDialog({
+  breakpoint = 640,
+  size = 'md',
+  ...props
+}: AdaptiveDialogProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mql = window.matchMedia(`(max-width: ${breakpoint}px)`);
+    setIsMobile(mql.matches);
+
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, [breakpoint]);
+
+  if (isMobile) {
+    return <Drawer side="bottom" size={size === 'xl' ? 'lg' : size} handle {...props} />;
+  }
+
+  return <Dialog size={size} {...props} />;
+}
+
+/* ---------------------------------------------------------------- useConfirm */
+
+export interface ConfirmOptions {
+  title?: ReactNode;
+  description?: ReactNode;
+  confirmLabel?: string;
+  cancelLabel?: string;
+  tone?: 'primary' | 'danger';
+}
+
+interface ConfirmContextValue {
+  confirm: (options: ConfirmOptions) => Promise<boolean>;
+}
+
+const ConfirmContext = createContext<ConfirmContextValue | null>(null);
+
+export function ConfirmProvider({ children }: { children: ReactNode }) {
+  const [dialogState, setDialogState] = useState<{
+    open: boolean;
+    options: ConfirmOptions;
+    resolve: (value: boolean) => void;
+  } | null>(null);
+
+  const confirm = useCallback((options: ConfirmOptions): Promise<boolean> => {
+    return new Promise<boolean>((resolve) => {
+      setDialogState({
+        open: true,
+        options,
+        resolve,
+      });
+    });
+  }, []);
+
+  const handleClose = useCallback(() => {
+    dialogState?.resolve(false);
+    setDialogState(null);
+  }, [dialogState]);
+
+  const handleConfirm = useCallback(() => {
+    dialogState?.resolve(true);
+    setDialogState(null);
+  }, [dialogState]);
+
+  return (
+    <ConfirmContext.Provider value={{ confirm }}>
+      {children}
+      {dialogState && (
+        <ConfirmDialog
+          open={dialogState.open}
+          onClose={handleClose}
+          onConfirm={handleConfirm}
+          title={dialogState.options.title}
+          tone={dialogState.options.tone}
+          confirmLabel={dialogState.options.confirmLabel}
+          cancelLabel={dialogState.options.cancelLabel}
+        >
+          {dialogState.options.description}
+        </ConfirmDialog>
+      )}
+    </ConfirmContext.Provider>
+  );
+}
+
+export function useConfirm(): (options: ConfirmOptions) => Promise<boolean> {
+  const ctx = useContext(ConfirmContext);
+  if (!ctx) {
+    throw new Error('useConfirm() must be used inside <ConfirmProvider>.');
+  }
+  return ctx.confirm;
+}
+
+export const Dialog = Object.assign(DialogRoot, {
+  Body: DialogBody,
+  Confirm: ConfirmDialog,
+  Adaptive: AdaptiveDialog,
+});

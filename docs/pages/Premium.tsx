@@ -3,7 +3,6 @@ import {
   Badge,
   Button,
   Card,
-  CardBody,
   Dropzone,
   Kanban,
   Timeline,

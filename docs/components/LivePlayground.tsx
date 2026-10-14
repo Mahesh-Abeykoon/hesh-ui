@@ -10,7 +10,7 @@ import React, {
 } from 'react';
 import { transform } from 'sucrase';
 import * as Hesh from '../../src/index';
-import { Badge, Button, IconButton, Switch, Tooltip } from '../../src/index';
+import { Badge } from '../../src/index';
 import { CheckIcon, CopyIcon, ShareIcon } from '../../src/index';
 
 const ResetIcon = ({ size = 13 }: { size?: number }) => (

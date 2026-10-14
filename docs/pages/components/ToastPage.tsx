@@ -1,7 +1,21 @@
 import { useState } from 'react';
-import { useToast, Button, type ToastTone, Badge } from '../../../src/index';
+import { useToast, Button, type ToastTone } from '../../../src/index';
 import { Callout, PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
+
+const FLUENT_DEMO = `// Fluent shorthand methods (works with hook or standalone import)
+toast.success('Project deployed successfully!');
+toast.error('Database connection failed', 'Check your credentials in settings');
+
+// Promise-based toast for async operations
+toast.promise(
+  fetch('/api/deploy'),
+  {
+    loading: 'Deploying release v2.4.0...',
+    success: 'Deployment live on edge servers!',
+    error: (err) => \`Deploy failed: \${err.message}\`,
+  }
+);`;
 
 const ACTION_TOAST_DEMO = `const { toast, dismiss } = useToast();
 
@@ -25,20 +39,78 @@ toast({
 export function ToastPage() {
   const { toast } = useToast();
   const tones: ToastTone[] = ['info', 'success', 'warning', 'danger'];
-  const [lastId, setLastId] = useState<number | null>(null);
+  const [loadingPromise, setLoadingPromise] = useState(false);
+
+  const simulatePromise = (shouldFail = false) => {
+    setLoadingPromise(true);
+    const mockTask = new Promise<string>((resolve, reject) => {
+      setTimeout(() => {
+        if (shouldFail) reject(new Error('Network gateway timeout (504)'));
+        else resolve('Artifact build #8492 compiled in 1.4s');
+      }, 1800);
+    });
+
+    toast.promise(mockTask, {
+      loading: 'Building production bundle...',
+      success: (data) => `${data}!`,
+      error: (err) => String(err),
+    }).finally(() => {
+      setLoadingPromise(false);
+    });
+  };
 
   return (
     <DocPage
       eyebrow="Components"
       title="Toast"
-      lede="Transient, non-modal notification messages that announce asynchronous task completion, alerts, or actionable system events."
-      importStatement="import { useToast, ToastProvider } from 'hesh-ui';"
+      lede="Transient notification system with fluent shortcuts, promise lifecycle tracking, auto-dismiss timers, and accessible ARIA announcements."
+      importStatement="import { useToast, toast, ToastProvider } from 'hesh-ui';"
     >
       <Section
-        title="Trigger Toast Notifications"
-        description="Click buttons below to trigger live toast messages in the active viewport."
+        title="Fluent Shorthands & Promise Toasts (High DX)"
+        description="Trigger success, error, info, or track asynchronous promises with automatic state transitions."
       >
-        <Showcase code={`toast({ tone: 'success', title: '...', description: '...' })`} defaultOpen width="md">
+        <Showcase code={FLUENT_DEMO} defaultOpen width="md">
+          <div className="row-wrap" style={{ gap: '0.75rem' }}>
+            <Button
+              variant="success"
+              size="sm"
+              onClick={() => toast.success('Changes saved successfully', 'Configuration updated in all regions')}
+            >
+              toast.success()
+            </Button>
+            <Button
+              variant="danger"
+              size="sm"
+              onClick={() => toast.error('Payment method declined', 'Please update your card on file')}
+            >
+              toast.error()
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              loading={loadingPromise}
+              onClick={() => simulatePromise(false)}
+            >
+              toast.promise() (Success)
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              loading={loadingPromise}
+              onClick={() => simulatePromise(true)}
+            >
+              toast.promise() (Rejection)
+            </Button>
+          </div>
+        </Showcase>
+      </Section>
+
+      <Section
+        title="Trigger Standard Notifications"
+        description="Config-driven toast invocation with customizable tone, lifetime, and descriptions."
+      >
+        <Showcase code={`toast({ tone: 'success', title: '...', description: '...' })`} width="md">
           <div className="row-wrap" style={{ gap: '0.75rem' }}>
             {tones.map((tone) => (
               <Button
@@ -46,12 +118,11 @@ export function ToastPage() {
                 size="sm"
                 variant={tone === 'danger' ? 'danger' : 'secondary'}
                 onClick={() => {
-                  const id = toast({
+                  toast({
                     tone,
                     title: `${tone[0]!.toUpperCase()}${tone.slice(1)} notification`,
                     description: `Event completed successfully in ${tone} channel.`,
                   });
-                  setLastId(id);
                 }}
               >
                 {tone} toast
@@ -61,12 +132,11 @@ export function ToastPage() {
               size="sm"
               variant="outline"
               onClick={() => {
-                const id = toast({
+                toast({
                   title: 'Persistent notification',
                   description: 'duration={0} keeps it open until manually dismissed.',
                   duration: 0,
                 });
-                setLastId(id);
               }}
             >
               Persistent toast
@@ -146,10 +216,10 @@ export function ToastPage() {
 
       <Section
         title="Setup & Provider"
-        description="Mount ToastProvider once at the root of your application."
+        description="Mount ToastProvider once near the root of your application."
       >
         <Showcase
-          code={`import { ToastProvider } from 'hesh-ui';
+          code={`import { ToastProvider, toast } from 'hesh-ui';
 
 function Root() {
   return (
@@ -157,7 +227,10 @@ function Root() {
       <App />
     </ToastProvider>
   );
-}`}
+}
+
+// In any component or service file:
+toast.success('Profile updated!');`}
           width="md"
         >
           <div className="stack" style={{ gap: '0.75rem' }}>
@@ -177,6 +250,9 @@ function Root() {
       <Section title="API Reference">
         <PropsTable
           rows={[
+            { name: 'toast.success(title, desc?)', type: '(title: ReactNode, desc?: ReactNode) => number', description: 'Quick shorthand for success notifications.' },
+            { name: 'toast.error(title, desc?)', type: '(title: ReactNode, desc?: ReactNode) => number', description: 'Quick shorthand for danger/error notifications.' },
+            { name: 'toast.promise(promise, options)', type: '<T>(p: Promise<T>, opts: ToastPromiseOptions<T>) => Promise<T>', description: 'Automatically displays loading state and updates to success or error.' },
             { name: 'toast(options)', type: '(options: ToastOptions) => number', description: 'Triggers a toast and returns a unique ID.' },
             { name: 'dismiss(id)', type: '(id: number) => void', description: 'Dismisses a specific toast with an exit transition.' },
             { name: 'ToastOptions.title', type: 'ReactNode', required: true, description: 'Header line of the notification.' },

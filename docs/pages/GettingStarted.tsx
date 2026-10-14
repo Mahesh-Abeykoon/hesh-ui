@@ -1,4 +1,4 @@
-import { Badge, Button, Card, Separator } from '../../src/index';
+import { Badge, Button, Separator } from '../../src/index';
 import { CodeBlock } from '../components/CodeBlock';
 import { Callout, Showcase } from '../components/Showcase';
 import { DocPage, Section } from '../components/DocPage';

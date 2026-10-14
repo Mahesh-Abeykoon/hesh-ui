@@ -1,8 +1,7 @@
-import React, {
+import {
   forwardRef,
   useRef,
   useState,
-  useEffect,
   type KeyboardEvent,
   type ClipboardEvent,
   type ChangeEvent,

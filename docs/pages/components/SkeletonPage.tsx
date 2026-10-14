@@ -62,6 +62,25 @@ export function SkeletonPage() {
         </Showcase>
       </Section>
 
+      <Section
+        title="Compound Skeleton Presets (<Skeleton.Card>, <Skeleton.Table>)"
+        description="Instant loading placeholders for common application layouts without assembling individual shapes."
+      >
+        <Showcase
+          code={`// Instant card & table loading placeholders
+<Skeleton.Card hasImage lines={2} />
+
+<Skeleton.Table rows={3} columns={3} />`}
+          defaultOpen
+          width="lg"
+        >
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', width: '100%' }}>
+            <Skeleton.Card hasImage lines={2} />
+            <Skeleton.Table rows={3} columns={3} />
+          </div>
+        </Showcase>
+      </Section>
+
       <Section title="Accessibility">
         <Callout tone="info" title="Reduced Motion">
           Carries <code>aria-hidden="true"</code> so screen readers ignore placeholder shapes while awaiting content. The shimmer animation automatically disables under <code>prefers-reduced-motion</code>.

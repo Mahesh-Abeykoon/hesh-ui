@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Dock, DockIcon } from '../../../src/index';
-import { ZapIcon, SearchIcon, MoonIcon, SunIcon, CheckIcon } from '../../../src/index';
-import { Callout, PropsTable, Showcase } from '../../components/Showcase';
+import { ZapIcon, SearchIcon, MoonIcon, SunIcon } from '../../../src/index';
+import { PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 
 const DOCK_DEMO = `<Dock>

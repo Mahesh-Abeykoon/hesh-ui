@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SegmentedControl, Card } from '../../../src/index';
+import { SegmentedControl } from '../../../src/index';
 import { Callout, PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 import { SegmentedControlWorkbench } from '../../components/PropsWorkbench';

@@ -1,10 +1,4 @@
-import {
-  forwardRef,
-  useState,
-  useRef,
-  type InputHTMLAttributes,
-  type ChangeEvent,
-} from 'react';
+import { forwardRef, useRef, type InputHTMLAttributes, type ChangeEvent } from 'react';
 import { cn } from '../utils/cn';
 import { useControllableState } from '../hooks/useControllableState';
 

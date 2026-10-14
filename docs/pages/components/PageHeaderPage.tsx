@@ -1,5 +1,5 @@
-import { PageHeader, Button, Badge } from '../../../src/index';
-import { Callout, PropsTable, Showcase } from '../../components/Showcase';
+import { PageHeader, Button } from '../../../src/index';
+import { PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 
 const HEADER_DEMO = `<PageHeader

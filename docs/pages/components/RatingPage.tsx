@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Rating } from '../../../src/index';
-import { Callout, PropsTable, Showcase } from '../../components/Showcase';
+import { PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 
 const DEMO = `const [stars, setStars] = useState(4.5);

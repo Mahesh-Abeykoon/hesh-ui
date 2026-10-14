@@ -120,10 +120,11 @@ try {
   // Test 4: list command
   console.log('• Testing `list` command...');
   const listOut = execSync(`node "${cliBin}" list`, { cwd: testDir, encoding: 'utf8' });
-  if (!listOut.includes('Available Components & Primitives (75 total)')) {
-    throw new Error('list command did not report 75 total items');
+  const regData = JSON.parse(readFileSync(resolve(__dirname, '../registry/registry.json'), 'utf8'));
+  if (!listOut.includes(`Available Components & Primitives (${regData.totalItems} total)`)) {
+    throw new Error(`list command did not report ${regData.totalItems} total items`);
   }
-  console.log('  ✔ `list` output formatted and indexed all 75 items');
+  console.log(`  ✔ \`list\` output formatted and indexed all ${regData.totalItems} items`);
 
   console.log('\n🎉 ALL CLI TESTS PASSED! 100% functional.\n');
 } finally {

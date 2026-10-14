@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Command, Button, Kbd, useCommandShortcut } from '../../../src/index';
+import { Command, Button, Kbd } from '../../../src/index';
 import { HomeIcon, SettingsIcon, PaletteIcon, UsersIcon } from '../../../src/index';
 import { Callout, PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';

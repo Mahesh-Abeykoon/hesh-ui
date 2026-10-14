@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Toggle } from '../../../src/index';
-import { Callout, PropsTable, Showcase } from '../../components/Showcase';
+import { PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 
 const TOGGLE_DEMO = `const [pressed, setPressed] = useState(false);

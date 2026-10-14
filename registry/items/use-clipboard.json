@@ -1,0 +1,17 @@
+{
+  "name": "use-clipboard",
+  "title": "useClipboard",
+  "type": "hook",
+  "category": "Hooks",
+  "description": "Custom React hook useClipboard",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "useClipboard.ts",
+      "target": "hooks/useClipboard.ts",
+      "content": "import { useCallback, useState } from 'react';\r\n\r\nexport interface UseClipboardOptions {\r\n  /** Duration in milliseconds before resetting `copied` state. @default 2000 */\r\n  timeout?: number;\r\n}\r\n\r\nexport interface UseClipboardReturn {\r\n  copied: boolean;\r\n  copy: (text: string) => Promise<boolean>;\r\n  reset: () => void;\r\n}\r\n\r\n/**\r\n * React hook to copy arbitrary text to the user's clipboard.\r\n * Manages transient `copied` state with configurable auto-reset.\r\n *\r\n * @param options - Hook configuration options\r\n */\r\nexport function useClipboard(options: UseClipboardOptions = {}): UseClipboardReturn {\r\n  const { timeout = 2000 } = options;\r\n  const [copied, setCopied] = useState(false);\r\n\r\n  const copy = useCallback(\r\n    async (text: string): Promise<boolean> => {\r\n      if (typeof window === 'undefined' || !navigator?.clipboard?.writeText) {\r\n        console.warn('[hesh-ui] Clipboard API is unavailable in this environment');\r\n        return false;\r\n      }\r\n\r\n      try {\r\n        await navigator.clipboard.writeText(text);\r\n        setCopied(true);\r\n\r\n        setTimeout(() => {\r\n          setCopied(false);\r\n        }, timeout);\r\n\r\n        return true;\r\n      } catch (error) {\r\n        console.warn('[hesh-ui] Failed to copy to clipboard:', error);\r\n        setCopied(false);\r\n        return false;\r\n      }\r\n    },\r\n    [timeout]\r\n  );\r\n\r\n  const reset = useCallback(() => {\r\n    setCopied(false);\r\n  }, []);\r\n\r\n  return { copied, copy, reset };\r\n}\r\n",
+      "type": "hook"
+    }
+  ]
+}

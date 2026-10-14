@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Kanban, type KanbanCard } from '../../../src/index';
-import { Callout, PropsTable, Showcase } from '../../components/Showcase';
+import { PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 
 const KANBAN_INITIAL: KanbanCard[] = [

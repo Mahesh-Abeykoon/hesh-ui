@@ -12,7 +12,6 @@ import {
   CardHeader,
   Checkbox,
   Combobox,
-  Confetti,
   DataTable,
   Dialog,
   Drawer,
@@ -47,21 +46,7 @@ import {
   type TabsVariant,
   type TooltipTone,
 } from '../../src/index';
-import {
-  ArrowRightIcon,
-  CheckIcon,
-  ChevronDownIcon,
-  CopyIcon,
-  DownloadIcon,
-  ExternalLinkIcon,
-  InfoIcon,
-  PlusIcon,
-  SearchIcon,
-  StarIcon,
-  TrashIcon,
-  UsersIcon,
-  ZapIcon,
-} from '../../src/index';
+import { ArrowRightIcon, StarIcon, UsersIcon, ZapIcon } from '../../src/index';
 import { CodeBlock } from './CodeBlock';
 import { LiveCodeEditor, LiveErrorBoundary, useLiveCompiler } from './LivePlayground';
 

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { LivePlayground } from '../components/LivePlayground';
-import { Badge } from '../../src/index';
 
 interface TemplateDef {
   id: string;

@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { Dialog, ConfirmDialog, Button, Input, Badge, Textarea, Select } from '../../../src/index';
+import { Dialog, ConfirmDialog, AdaptiveDialog, ConfirmProvider, useConfirm, toast, Button, Input, Badge, Textarea, Select } from '../../../src/index';
 import { Callout, PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 import { DialogWorkbench } from '../../components/PropsWorkbench';
 
-const SIZES_DEMO = `const [activeSize, setActiveSize] = useState<null | 'sm' | 'md' | 'lg' | 'xl' | 'full'>(null);
+const SIZES_DEMO = `  const [adaptiveOpen, setAdaptiveOpen] = useState(false);
+  const confirm = useConfirm();
+  const [activeSize, setActiveSize] = useState<null | 'sm' | 'md' | 'lg' | 'xl' | 'full'>(null);
 
 <div className="row-wrap">
   <Button variant="outline" size="sm" onClick={() => setActiveSize('sm')}>Small (sm)</Button>
@@ -126,7 +128,49 @@ const [step, setStep] = useState(1);
   {/* Step Content */}
 </Dialog>`;
 
-export function DialogPage() {
+
+const ADAPTIVE_DEMO = `const [adaptiveOpen, setAdaptiveOpen] = useState(false);
+
+// On desktop (>= 640px) -> Centered modal Dialog
+// On mobile (< 640px)  -> Bottom thumb-friendly Drawer with drag handle!
+<AdaptiveDialog
+  open={adaptiveOpen}
+  onClose={() => setAdaptiveOpen(false)}
+  title="Edit Profile Settings"
+  description="Make changes to your public profile and account credentials."
+  footer={
+    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', width: '100%' }}>
+      <Button variant="secondary" onClick={() => setAdaptiveOpen(false)}>Cancel</Button>
+      <Button variant="primary" onClick={() => setAdaptiveOpen(false)}>Save Changes</Button>
+    </div>
+  }
+>
+  <div className="stack" style={{ gap: '0.75rem', marginTop: '0.5rem' }}>
+    <Input label="Display Name" defaultValue="Mahesh Abeykoon" />
+    <Input label="Email Address" defaultValue="mahesh@hesh.dev" />
+  </div>
+</AdaptiveDialog>`;
+
+const USE_CONFIRM_DEMO = `// In any component wrapped by <ConfirmProvider>:
+const confirm = useConfirm();
+
+const handleDelete = async () => {
+  const confirmed = await confirm({
+    title: 'Purge CloudFront Edge Cache?',
+    description: 'This will invalidate cache across all 48 edge POPs worldwide.',
+    tone: 'danger',
+    confirmLabel: 'Purge Edge Cache',
+    cancelLabel: 'Keep Cache',
+  });
+
+  if (confirmed) {
+    toast.success('Edge cache purged across all regions');
+  }
+};`;
+
+function DialogPageContent() {
+  const [adaptiveOpen, setAdaptiveOpen] = useState(false);
+  const confirm = useConfirm();
   const [activeSize, setActiveSize] = useState<null | 'sm' | 'md' | 'lg' | 'xl' | 'full'>(null);
   const [formOpen, setFormOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -141,7 +185,7 @@ export function DialogPage() {
       eyebrow="Components"
       title="Dialog"
       lede="A modal window overlaid onto the viewport. Traps keyboard focus, locks background scrolling, and complies with the WAI-ARIA 1.2 modal dialog specification."
-      importStatement="import { Dialog, ConfirmDialog } from 'hesh-ui';"
+      importStatement="import { Dialog, ConfirmDialog, AdaptiveDialog, ConfirmProvider, useConfirm } from 'hesh-ui';"
     >
       <Section
         title="Interactive Props Workbench"
@@ -376,6 +420,65 @@ export function DialogPage() {
         </Showcase>
       </Section>
 
+
+      <Section
+        title="Adaptive / Responsive Dialog (Desktop Modal ↔ Mobile Bottom Drawer)"
+        description="Renders as a centered modal dialog on desktop screens (>= 640px) and smoothly morphs into an ergonomic bottom drawer on mobile viewports."
+      >
+        <Showcase code={ADAPTIVE_DEMO} defaultOpen width="md">
+          <Button variant="outline" onClick={() => setAdaptiveOpen(true)}>
+            Open Adaptive Dialog
+          </Button>
+
+          <AdaptiveDialog
+            open={adaptiveOpen}
+            onClose={() => setAdaptiveOpen(false)}
+            title="Edit Profile Settings"
+            description="Resize your browser window below 640px to see this automatically morph into a bottom mobile drawer!"
+            footer={
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', width: '100%' }}>
+                <Button variant="secondary" onClick={() => setAdaptiveOpen(false)}>Cancel</Button>
+                <Button variant="primary" onClick={() => setAdaptiveOpen(false)}>Save Changes</Button>
+              </div>
+            }
+          >
+            <div className="stack" style={{ gap: '0.75rem', marginTop: '0.5rem' }}>
+              <Input label="Display Name" defaultValue="Mahesh Abeykoon" />
+              <Input label="Email Address" defaultValue="mahesh@hesh.dev" />
+            </div>
+          </AdaptiveDialog>
+        </Showcase>
+      </Section>
+
+      <Section
+        title="useConfirm() Promise Hook (Zero Boilerplate)"
+        description="Trigger confirmation dialogs imperatively with an async/await promise — zero boolean state required in your component."
+      >
+        <Showcase code={USE_CONFIRM_DEMO} defaultOpen width="md">
+          <div className="row-wrap" style={{ gap: '0.75rem' }}>
+            <Button
+              variant="danger"
+              onClick={async () => {
+                const confirmed = await confirm({
+                  title: 'Purge CloudFront Edge Cache?',
+                  description: 'This will invalidate cache across all 48 edge POPs worldwide. Latency will temporarily spike.',
+                  tone: 'danger',
+                  confirmLabel: 'Purge Edge Cache',
+                  cancelLabel: 'Keep Cache',
+                });
+                if (confirmed) {
+                  toast.success('Edge cache purged across all regions');
+                } else {
+                  toast.info('Purge operation cancelled');
+                }
+              }}
+            >
+              Trigger Async Confirm Dialog
+            </Button>
+          </div>
+        </Showcase>
+      </Section>
+
       <Section title="Accessibility">
         <Callout tone="info" title="WAI-ARIA Dialog (Modal) Pattern">
           Focus is trapped strictly inside the panel via a looped tab key index trap. Body scroll is locked via viewport overflow styling. On close, focus returns cleanly to the triggering button.
@@ -398,5 +501,14 @@ export function DialogPage() {
         />
       </Section>
     </DocPage>
+  );
+}
+
+
+export function DialogPage() {
+  return (
+    <ConfirmProvider>
+      <DialogPageContent />
+    </ConfirmProvider>
   );
 }

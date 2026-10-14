@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo, useState, type HTMLAttributes } from 'react';
+import { forwardRef, useMemo, type HTMLAttributes } from 'react';
 import { cn } from '../utils/cn';
 
 export type QRCodeErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H';

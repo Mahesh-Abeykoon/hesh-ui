@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Confetti, fireConfetti, Button, Card, ZapIcon } from '../../../src/index';
-import { Callout, PropsTable, Showcase } from '../../components/Showcase';
+import { Confetti, fireConfetti, Button, ZapIcon } from '../../../src/index';
+import { PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 import { ConfettiWorkbench } from '../../components/PropsWorkbench';
 

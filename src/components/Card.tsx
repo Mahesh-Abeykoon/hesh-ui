@@ -10,7 +10,7 @@ export interface CardProps extends HTMLAttributes<HTMLElement> {
   as?: 'div' | 'button' | 'article' | 'section';
 }
 
-export const Card = forwardRef<HTMLElement, CardProps>(function Card(
+const CardRoot = forwardRef<HTMLElement, CardProps>(function Card(
   {
     as: Tag = 'div',
     interactive = false,
@@ -100,3 +100,10 @@ export function CardMedia({
     </div>
   );
 }
+
+export const Card = Object.assign(CardRoot, {
+  Header: CardHeader,
+  Body: CardBody,
+  Footer: CardFooter,
+  Media: CardMedia,
+});

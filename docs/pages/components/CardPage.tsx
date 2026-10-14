@@ -7,7 +7,6 @@ import {
   Badge,
   Button,
   Separator,
-  Stat,
   Sparkline,
   PaletteIcon,
   CheckIcon,

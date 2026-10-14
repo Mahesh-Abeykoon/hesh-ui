@@ -10,7 +10,7 @@ import {
   Badge,
   SegmentedControl,
 } from '../../../src/index';
-import { Callout, PropsTable, Showcase } from '../../components/Showcase';
+import { PropsTable, Showcase } from '../../components/Showcase';
 import { DocPage, Section } from '../../components/DocPage';
 import { ChartsWorkbench } from '../../components/PropsWorkbench';
 

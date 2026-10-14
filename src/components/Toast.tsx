@@ -1,7 +1,10 @@
+'use client';
+
 import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -28,14 +31,37 @@ export interface ToastOptions {
   action?: ReactNode;
 }
 
+export type ToastInput = ReactNode | ToastOptions;
+
+export interface ToastPromiseOptions<T> {
+  loading: ReactNode | ToastOptions;
+  success: ReactNode | ToastOptions | ((data: T) => ReactNode | ToastOptions);
+  error: ReactNode | ToastOptions | ((err: unknown) => ReactNode | ToastOptions);
+}
+
+export interface ToastFunction {
+  (input: ToastInput): number;
+  info: (input: ToastInput, description?: ReactNode) => number;
+  success: (input: ToastInput, description?: ReactNode) => number;
+  warning: (input: ToastInput, description?: ReactNode) => number;
+  danger: (input: ToastInput, description?: ReactNode) => number;
+  error: (input: ToastInput, description?: ReactNode) => number;
+  dismiss: (id: number) => void;
+  update: (id: number, options: Partial<ToastOptions>) => void;
+  promise: <T>(
+    promise: Promise<T> | (() => Promise<T>),
+    options: ToastPromiseOptions<T>
+  ) => Promise<T>;
+}
+
+export interface ToastContextValue {
+  toast: ToastFunction;
+  dismiss: (id: number) => void;
+}
+
 interface ToastRecord extends ToastOptions {
   id: number;
   leaving?: boolean;
-}
-
-interface ToastContextValue {
-  toast: (options: ToastOptions) => number;
-  dismiss: (id: number) => void;
 }
 
 const ToastContext = createContext<ToastContextValue | null>(null);
@@ -58,8 +84,71 @@ export interface ToastProviderProps {
   limit?: number;
 }
 
+function isToastOptions(input: unknown): input is ToastOptions {
+  return typeof input === 'object' && input !== null && 'title' in input;
+}
+
+function normalizeInput(
+  input: ToastInput,
+  defaultTone: ToastTone = 'info',
+  description?: ReactNode
+): ToastOptions {
+  if (isToastOptions(input)) {
+    return {
+      tone: defaultTone,
+      ...input,
+      description: description ?? input.description,
+    };
+  }
+  return {
+    title: input as ReactNode,
+    description,
+    tone: defaultTone,
+  };
+}
+
+let activeToastFn: ToastFunction | null = null;
+let activeDismissFn: ((id: number) => void) | null = null;
+
 /**
- * Toast host. Mount once near the root; call `useToast().toast()` anywhere.
+ * Imperative standalone toast dispatcher.
+ * Can be used anywhere, including outside React components (e.g., API clients, event listeners).
+ */
+export const toast: ToastFunction = Object.assign(
+  (input: ToastInput) => {
+    if (activeToastFn) return activeToastFn(input);
+    console.warn('[hesh-ui] toast() was called before <ToastProvider> was mounted.');
+    return -1;
+  },
+  {
+    info: (input: ToastInput, desc?: ReactNode) =>
+      activeToastFn ? activeToastFn.info(input, desc) : -1,
+    success: (input: ToastInput, desc?: ReactNode) =>
+      activeToastFn ? activeToastFn.success(input, desc) : -1,
+    warning: (input: ToastInput, desc?: ReactNode) =>
+      activeToastFn ? activeToastFn.warning(input, desc) : -1,
+    danger: (input: ToastInput, desc?: ReactNode) =>
+      activeToastFn ? activeToastFn.danger(input, desc) : -1,
+    error: (input: ToastInput, desc?: ReactNode) =>
+      activeToastFn ? activeToastFn.error(input, desc) : -1,
+    dismiss: (id: number) => {
+      if (activeDismissFn) activeDismissFn(id);
+    },
+    update: (id: number, options: Partial<ToastOptions>) => {
+      if (activeToastFn) activeToastFn.update(id, options);
+    },
+    promise: <T,>(
+      promise: Promise<T> | (() => Promise<T>),
+      options: ToastPromiseOptions<T>
+    ): Promise<T> => {
+      if (activeToastFn) return activeToastFn.promise(promise, options);
+      return typeof promise === 'function' ? promise() : promise;
+    },
+  }
+);
+
+/**
+ * Toast host. Mount once near the root; call `useToast().toast()` or `toast.success()` anywhere.
  *
  * The live region is `role="status"` / `aria-live="polite"`, so messages are
  * announced without stealing focus. Interruptive tones switch to
@@ -76,7 +165,6 @@ export function ToastProvider({
   const timers = useRef(new Map<number, number>());
 
   const dismiss = useCallback((id: number) => {
-    // Let the exit animation play before unmounting.
     setToasts((prev) => prev.map((t) => (t.id === id ? { ...t, leaving: true } : t)));
     window.setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== id)), 180);
 
@@ -87,7 +175,29 @@ export function ToastProvider({
     }
   }, []);
 
-  const toast = useCallback(
+  const update = useCallback(
+    (id: number, updates: Partial<ToastOptions>) => {
+      setToasts((prev) =>
+        prev.map((t) => {
+          if (t.id !== id) return t;
+          return { ...t, ...updates, leaving: false };
+        })
+      );
+
+      if (updates.duration !== undefined) {
+        const oldTimer = timers.current.get(id);
+        if (oldTimer) window.clearTimeout(oldTimer);
+        if (updates.duration > 0) {
+          timers.current.set(id, window.setTimeout(() => dismiss(id), updates.duration));
+        } else {
+          timers.current.delete(id);
+        }
+      }
+    },
+    [dismiss]
+  );
+
+  const triggerToast = useCallback(
     (options: ToastOptions) => {
       const id = nextId.current;
       nextId.current += 1;
@@ -103,7 +213,78 @@ export function ToastProvider({
     [duration, dismiss, limit]
   );
 
-  const value = useMemo(() => ({ toast, dismiss }), [toast, dismiss]);
+  const promiseFn = useCallback(
+    <T,>(
+      promiseOrFn: Promise<T> | (() => Promise<T>),
+      promiseOptions: ToastPromiseOptions<T>
+    ): Promise<T> => {
+      const loadingOpts = normalizeInput(promiseOptions.loading, 'info');
+      const id = triggerToast({ ...loadingOpts, duration: loadingOpts.duration ?? 0 });
+
+      const p = typeof promiseOrFn === 'function' ? promiseOrFn() : promiseOrFn;
+
+      return p
+        .then((data) => {
+          const rawSuccess =
+            typeof promiseOptions.success === 'function'
+              ? promiseOptions.success(data)
+              : promiseOptions.success;
+          const successOpts = normalizeInput(rawSuccess, 'success');
+          update(id, {
+            ...successOpts,
+            duration: successOpts.duration ?? duration,
+          });
+          return data;
+        })
+        .catch((err) => {
+          const rawError =
+            typeof promiseOptions.error === 'function'
+              ? promiseOptions.error(err)
+              : promiseOptions.error;
+          const errorOpts = normalizeInput(rawError, 'danger');
+          update(id, {
+            ...errorOpts,
+            duration: errorOpts.duration ?? duration,
+          });
+          throw err;
+        });
+    },
+    [triggerToast, update, duration]
+  );
+
+  const toastObj = useMemo<ToastFunction>(() => {
+    return Object.assign(
+      (input: ToastInput) => triggerToast(normalizeInput(input)),
+      {
+        info: (input: ToastInput, desc?: ReactNode) =>
+          triggerToast(normalizeInput(input, 'info', desc)),
+        success: (input: ToastInput, desc?: ReactNode) =>
+          triggerToast(normalizeInput(input, 'success', desc)),
+        warning: (input: ToastInput, desc?: ReactNode) =>
+          triggerToast(normalizeInput(input, 'warning', desc)),
+        danger: (input: ToastInput, desc?: ReactNode) =>
+          triggerToast(normalizeInput(input, 'danger', desc)),
+        error: (input: ToastInput, desc?: ReactNode) =>
+          triggerToast(normalizeInput(input, 'danger', desc)),
+        dismiss,
+        update,
+        promise: promiseFn,
+      }
+    );
+  }, [triggerToast, dismiss, update, promiseFn]);
+
+  useEffect(() => {
+    activeToastFn = toastObj;
+    activeDismissFn = dismiss;
+    return () => {
+      if (activeToastFn === toastObj) {
+        activeToastFn = null;
+        activeDismissFn = null;
+      }
+    };
+  }, [toastObj, dismiss]);
+
+  const value = useMemo(() => ({ toast: toastObj, dismiss }), [toastObj, dismiss]);
 
   return (
     <ToastContext.Provider value={value}>
@@ -137,7 +318,9 @@ export function ToastProvider({
                   {record.description && (
                     <div className="pui-toast__desc">{record.description}</div>
                   )}
-                  {record.action && <div style={{ marginTop: 'var(--pui-space-2)' }}>{record.action}</div>}
+                  {record.action && (
+                    <div style={{ marginTop: 'var(--pui-space-2)' }}>{record.action}</div>
+                  )}
                 </div>
                 <button
                   type="button"
