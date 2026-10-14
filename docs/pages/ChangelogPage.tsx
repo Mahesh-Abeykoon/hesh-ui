@@ -5,25 +5,25 @@ import { CodeBlock } from '../components/CodeBlock';
 
 const HOOKS_SNIPPET = `import { useMediaQuery, useLocalStorage, useClipboard, useDebounce } from 'hesh-ui';
 
-export function ResponsiveUserProfile() {
-  // 1. Reactive CSS breakpoint query
+export function UserSettings() {
+  // 1. Listen for responsive breakpoint changes
   const isMobile = useMediaQuery('(max-width: 768px)');
 
-  // 2. Cross-tab synced local storage state
+  // 2. Synced local storage state across browser tabs
   const [theme, setTheme] = useLocalStorage('hesh-theme', 'system');
 
-  // 3. Instant clipboard copying with auto-reset
+  // 3. One-click clipboard copying with auto-reset
   const { copy, copied } = useClipboard({ timeout: 2000 });
 
-  // 4. Smooth input debouncing
+  // 4. Debounced search input
   const [query, setQuery] = useState('');
-  const debouncedQuery = useDebounce(query, 300);
+  const debounced = useDebounce(query, 250);
 
   return (
-    <div className="profile-card">
-      <p>Viewport: {isMobile ? 'Mobile Sheet' : 'Desktop Drawer'}</p>
+    <div className="settings-panel">
+      <p>Device: {isMobile ? 'Mobile' : 'Desktop'}</p>
       <button onClick={() => copy('npm install hesh-ui')}>
-        {copied ? 'Copied to Clipboard!' : 'Copy Install Command'}
+        {copied ? 'Copied!' : 'Copy install command'}
       </button>
     </div>
   );
@@ -32,31 +32,31 @@ export function ResponsiveUserProfile() {
 export function ChangelogPage() {
   return (
     <DocPage
-      eyebrow="Release Radar"
+      eyebrow="Changelog"
       title="Release Notes"
-      lede="Track the architectural progression, feature additions, and design system refinements of Hesh UI."
+      lede="New features, fixes, and improvements in Hesh UI."
     >
       {/* High-level digest cards */}
       <div className="changelog__stats-grid">
         <div className="changelog__stat-card">
           <span className="changelog__stat-num">v1.1.0</span>
-          <span className="changelog__stat-label">Current Stable Release</span>
+          <span className="changelog__stat-label">Stable Release</span>
         </div>
         <div className="changelog__stat-card">
-          <span className="changelog__stat-num">+4 Hooks</span>
-          <span className="changelog__stat-label">Essential Logic Suite</span>
+          <span className="changelog__stat-num">+4</span>
+          <span className="changelog__stat-label">Custom React Hooks</span>
         </div>
         <div className="changelog__stat-card">
-          <span className="changelog__stat-num">+6 Blocks</span>
-          <span className="changelog__stat-label">Production Page Sections</span>
+          <span className="changelog__stat-num">+6</span>
+          <span className="changelog__stat-label">Pre-built Page Blocks</span>
         </div>
         <div className="changelog__stat-card">
-          <span className="changelog__stat-num">80 Items</span>
-          <span className="changelog__stat-label">Zero-Dependency Components</span>
+          <span className="changelog__stat-num">80</span>
+          <span className="changelog__stat-label">Accessible Components</span>
         </div>
       </div>
 
-      <Section title="Timeline & Releases">
+      <Section title="Version History">
         <div className="changelog__timeline">
           {/* ================================================================= v1.1.0 */}
           <div className="changelog__entry">
@@ -74,7 +74,7 @@ export function ChangelogPage() {
                 rel="noreferrer"
                 className="changelog__pill"
               >
-                GitHub Release <ExternalLinkIcon size={12} />
+                GitHub <ExternalLinkIcon size={12} />
               </a>
             </div>
 
@@ -82,8 +82,8 @@ export function ChangelogPage() {
             <div className="changelog__feature-card">
               <div className="changelog__feature-head">
                 <div className="changelog__feature-title">
-                  <Badge tone="primary" variant="subtle">Suite</Badge>
-                  <span>Essential Hooks Suite</span>
+                  <Badge tone="primary" variant="subtle">New</Badge>
+                  <span>4 New React Hooks</span>
                 </div>
                 <div className="changelog__pill-grid">
                   <span className="changelog__pill">useMediaQuery</span>
@@ -94,24 +94,24 @@ export function ChangelogPage() {
               </div>
 
               <p className="changelog__feature-desc">
-                Four production-grade, SSR-resilient React hooks built with strict TypeScript generics and zero external dependencies. Designed to handle responsive layouts, input debouncing, cross-tab synced storage, and clipboard interactions seamlessly.
+                Added four lightweight, SSR-safe hooks for handling responsive CSS media queries, state debouncing, cross-tab synced storage, and clipboard copying. All hooks are written in strict TypeScript with zero extra dependencies.
               </p>
 
               <CodeBlock
                 code={HOOKS_SNIPPET}
                 language="tsx"
-                filename="hooks-preview.tsx"
+                filename="hooks-example.tsx"
                 copyable
                 embedded
               />
             </div>
 
-            {/* Feature 2: Production Blocks & Combobox Superpowers */}
+            {/* Feature 2: Production Blocks & Combobox */}
             <div className="changelog__feature-card">
               <div className="changelog__feature-head">
                 <div className="changelog__feature-title">
-                  <Badge tone="info" variant="subtle">Templates</Badge>
-                  <span>Production Blocks & Combobox Superpowers</span>
+                  <Badge tone="info" variant="subtle">New</Badge>
+                  <span>Pre-built Page Blocks & Combobox Updates</span>
                 </div>
                 <Button
                   size="sm"
@@ -121,25 +121,25 @@ export function ChangelogPage() {
                   }}
                   rightIcon={<ArrowRightIcon size={14} />}
                 >
-                  View Blocks Gallery
+                  Browse blocks
                 </Button>
               </div>
 
               <p className="changelog__feature-desc">
-                Introduced 6 full-page production block compositions that pair form validation, cards, charts, and navigation patterns into ready-to-copy code:
+                Added 6 pre-built, production-ready block compositions you can copy into your apps:
               </p>
 
               <div className="changelog__pill-grid">
-                <span className="changelog__pill">Hero Landing Section</span>
-                <span className="changelog__pill">Authentication Form</span>
-                <span className="changelog__pill">Pricing & Plan Matrix</span>
-                <span className="changelog__pill">Dashboard Metrics</span>
-                <span className="changelog__pill">Account Settings</span>
-                <span className="changelog__pill">Onboarding Wizard</span>
+                <span className="changelog__pill">Hero section</span>
+                <span className="changelog__pill">Authentication</span>
+                <span className="changelog__pill">Pricing matrix</span>
+                <span className="changelog__pill">Dashboard metrics</span>
+                <span className="changelog__pill">Account settings</span>
+                <span className="changelog__pill">Onboarding flow</span>
               </div>
 
               <p className="changelog__feature-desc" style={{ marginTop: '0.25rem' }}>
-                Combobox also gained <strong>creatable</strong> custom items, <strong>async search</strong> streaming with loading states, and <strong>virtualized</strong> list performance for datasets up to 10,000 options.
+                Combobox also gained support for <strong>creatable custom items</strong>, <strong>async search</strong> streaming with loading spinners, and <strong>virtualized lists</strong> for rendering large datasets smoothly.
               </p>
             </div>
 
@@ -147,41 +147,41 @@ export function ChangelogPage() {
             <div className="changelog__feature-card">
               <div className="changelog__feature-head">
                 <div className="changelog__feature-title">
-                  <Badge tone="warning" variant="subtle">Tooling & CI</Badge>
-                  <span>Automated AST Import Cleaner & 4-Lane CI</span>
+                  <Badge tone="warning" variant="subtle">CLI & Tooling</Badge>
+                  <span>Automated Import Cleaner & CI Checks</span>
                 </div>
                 <Badge tone="neutral" variant="outline">package.json</Badge>
               </div>
 
               <p className="changelog__feature-desc">
-                Never manually hunt down unused imports again. Added a TypeScript AST compiler script that traverses source code, analyzes symbol usage outside import clauses, and automatically cleans dead statements without breaking formatting or type specifiers:
+                Added a TypeScript AST script that inspects source files and removes unused imports without touching code formatting. Integrated with GitHub Actions to catch unreferenced imports before pull requests get merged:
               </p>
 
               <div className="changelog__terminal">
                 <div className="changelog__terminal-line">
                   <span className="changelog__terminal-prompt">$</span>
                   <span className="changelog__terminal-cmd">npm run lint:fix</span>
-                  <span className="changelog__terminal-comment"># Auto-removes unused imports across 180+ files</span>
+                  <span className="changelog__terminal-comment"># Cleans unused imports automatically</span>
                 </div>
                 <div className="changelog__terminal-line">
                   <span className="changelog__terminal-prompt">$</span>
                   <span className="changelog__terminal-cmd">npm run lint:unused</span>
-                  <span className="changelog__terminal-comment"># CI gate check used in GitHub Actions</span>
+                  <span className="changelog__terminal-comment"># CI check used in GitHub Actions</span>
                 </div>
               </div>
             </div>
 
-            {/* Feature 4: Elevation & Hero Redesign */}
+            {/* Feature 4: Design Polish */}
             <div className="changelog__feature-card">
               <div className="changelog__feature-head">
                 <div className="changelog__feature-title">
-                  <Badge tone="neutral" variant="subtle">Design System</Badge>
-                  <span>Refined Neutral Elevation & Full-Width Hero</span>
+                  <Badge tone="neutral" variant="subtle">Design</Badge>
+                  <span>Clean Hover Elevation & Hero Layout</span>
                 </div>
               </div>
 
               <p className="changelog__feature-desc">
-                Removed artificial 1px cyan hover outlines across cards, topbar buttons, and interactive containers. Hover states now utilize refined neutral elevation shadows and subtle border transitions. Additionally, the hero headline was redesigned to span full width alongside the flagship 96px Hesh brand mark.
+                Replaced harsh light-blue hover outlines on cards and buttons with clean, neutral elevation shadows. Redesigned the homepage hero to let the title span full width alongside the brand logo.
               </p>
             </div>
           </div>
@@ -193,39 +193,39 @@ export function ChangelogPage() {
             <div className="changelog__entry-header">
               <div className="changelog__entry-version-row">
                 <span className="changelog__entry-version">v1.0.0</span>
-                <Badge tone="neutral" variant="outline">Foundational Release</Badge>
+                <Badge tone="neutral" variant="outline">Initial Release</Badge>
                 <span className="changelog__entry-date">October 2026</span>
               </div>
             </div>
 
             <div className="changelog__feature-card">
               <p className="changelog__feature-desc">
-                The inaugural public release of Hesh UI, delivering a comprehensive toolkit for building high-performance, accessible React applications with token-driven styling:
+                First public release of Hesh UI: 80 accessible React components, token-based theming, and CLI code-scaffolding:
               </p>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem', marginTop: '0.25rem' }}>
                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
                   <CheckIcon size={16} style={{ color: 'var(--pui-success)', flexShrink: 0, marginTop: '0.25rem' }} />
                   <span style={{ fontSize: '0.875rem', color: 'var(--pui-fg)' }}>
-                    <strong>80 Core Components:</strong> Complete primitives for forms, navigation, feedback, overlays, and charts.
+                    <strong>80 Core Components:</strong> Complete set of form controls, navigation, feedback, overlays, and charts.
                   </span>
                 </div>
                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
                   <CheckIcon size={16} style={{ color: 'var(--pui-success)', flexShrink: 0, marginTop: '0.25rem' }} />
                   <span style={{ fontSize: '0.875rem', color: 'var(--pui-fg)' }}>
-                    <strong>Token-Driven Theming:</strong> Instant light/dark/system support with zero runtime CSS-in-JS overhead.
+                    <strong>Token-Driven Theming:</strong> Pure CSS variables with light, dark, and system modes.
                   </span>
                 </div>
                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
                   <CheckIcon size={16} style={{ color: 'var(--pui-success)', flexShrink: 0, marginTop: '0.25rem' }} />
                   <span style={{ fontSize: '0.875rem', color: 'var(--pui-fg)' }}>
-                    <strong>Code Ownership CLI:</strong> <code>npx hesh-ui add &lt;component&gt;</code> copies source directly into your repository.
+                    <strong>CLI Tooling:</strong> <code>npx hesh-ui add &lt;component&gt;</code> copies source directly into your project.
                   </span>
                 </div>
                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
                   <CheckIcon size={16} style={{ color: 'var(--pui-success)', flexShrink: 0, marginTop: '0.25rem' }} />
                   <span style={{ fontSize: '0.875rem', color: 'var(--pui-fg)' }}>
-                    <strong>Accessibility by Default:</strong> Keyboard roving tabindex, ARIA roles, and screen-reader tested.
+                    <strong>Accessible by Default:</strong> Keyboard roving tabindex, focus management, and WAI-ARIA roles.
                   </span>
                 </div>
               </div>
@@ -236,12 +236,12 @@ export function ChangelogPage() {
 
       <Separator style={{ marginBlock: '2rem' }} />
 
-      <Section title="Upgrade Path">
+      <Section title="Upgrading to v1.1.0">
         <p style={{ color: 'var(--pui-fg-muted)', fontSize: '0.9375rem', lineHeight: '1.6' }}>
-          Upgrading from v1.0.0 to v1.1.0 requires zero breaking changes. Simply pull the latest release or update via your preferred package manager:
+          There are no breaking changes in v1.1.0. To update in an existing project:
         </p>
 
-        <div style={{ marginTop: '1.25rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+        <div style={{ marginTop: '1rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
           <Button
             size="md"
             variant="primary"
@@ -250,7 +250,7 @@ export function ChangelogPage() {
             }}
             rightIcon={<ArrowRightIcon size={14} />}
           >
-            Installation Guide
+            Installation guide
           </Button>
           <Button
             size="md"
@@ -259,7 +259,7 @@ export function ChangelogPage() {
               if (typeof window !== 'undefined') window.location.hash = '#/blocks';
             }}
           >
-            Browse Production Blocks
+            Browse page blocks
           </Button>
         </div>
       </Section>

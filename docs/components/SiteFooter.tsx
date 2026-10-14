@@ -42,6 +42,7 @@ export const SiteFooter: FC = () => {
           <div className="site-footer__group">
             <span className="site-footer__heading">Documentation</span>
             <a href="#/getting-started" className="site-footer__link">Getting Started</a>
+            <a href="#/changelog" className="site-footer__link">Release Notes</a>
             <a href="#/button" className="site-footer__link">Components</a>
             <a href="#/theming" className="site-footer__link">Design Tokens</a>
             <a href="#/playground" className="site-footer__link">Live Playground</a>
@@ -50,7 +51,7 @@ export const SiteFooter: FC = () => {
           <div className="site-footer__group">
             <span className="site-footer__heading">Community</span>
             <a
-              href="https://github.com/Mahesh-Abeykoon/hesh"
+              href="https://github.com/Mahesh-Abeykoon/hesh-ui"
               target="_blank"
               rel="noopener noreferrer"
               className="site-footer__link"
@@ -66,7 +67,7 @@ export const SiteFooter: FC = () => {
               npm Registry
             </a>
             <a
-              href="https://github.com/Mahesh-Abeykoon/hesh/issues"
+              href="https://github.com/Mahesh-Abeykoon/hesh-ui/issues"
               target="_blank"
               rel="noopener noreferrer"
               className="site-footer__link"
