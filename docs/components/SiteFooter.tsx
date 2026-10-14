@@ -20,7 +20,7 @@ export const SiteFooter: FC = () => {
               className="site-footer__logo"
             />
             <span className="site-footer__name">Hesh UI</span>
-            <span className="site-footer__version-badge">v1.0.0</span>
+            <a href="#/changelog" className="site-footer__version-badge" title="View Release Notes (v1.1.0)">v1.1.0</a>
           </div>
 
           <p className="site-footer__tagline">

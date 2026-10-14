@@ -1,6 +1,6 @@
 {
   "name": "hesh-ui",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A high-performance React component library with polished defaults, token-driven theming, and built-in accessibility. Zero runtime dependencies beyond React.",
   "license": "MIT",
   "author": {
@@ -9,12 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Mahesh-Abeykoon/hesh.git"
+    "url": "git+https://github.com/Mahesh-Abeykoon/hesh-ui.git"
   },
   "bugs": {
-    "url": "https://github.com/Mahesh-Abeykoon/hesh/issues"
+    "url": "https://github.com/Mahesh-Abeykoon/hesh-ui/issues"
   },
-  "homepage": "https://github.com/Mahesh-Abeykoon/hesh#readme",
+  "homepage": "https://github.com/Mahesh-Abeykoon/hesh-ui#readme",
   "type": "module",
   "sideEffects": [
     "**/*.css"

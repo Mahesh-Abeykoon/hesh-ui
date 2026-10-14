@@ -12,6 +12,7 @@ import {
 import { MenuIcon, PaletteIcon, SearchIcon, XIcon } from '../src/index';
 
 import { HomePage } from './pages/Home';
+import { ChangelogPage } from './pages/ChangelogPage';
 import { GettingStartedPage } from './pages/GettingStarted';
 import { ThemingPage } from './pages/Theming';
 import { ThemeStudioPage } from './pages/ThemeStudio';
@@ -117,7 +118,10 @@ interface DocGroup {
 export const DOC_GROUPS: DocGroup[] = [
   {
     label: 'Start here',
-    pages: [{ id: 'home', title: 'Overview', Component: HomePage }],
+    pages: [
+      { id: 'home', title: 'Overview', Component: HomePage },
+      { id: 'changelog', title: 'Release Notes', Component: ChangelogPage },
+    ],
   },
   {
     label: 'Foundations',
@@ -397,7 +401,7 @@ function Shell() {
             />
           </span>
           <span className="topbar__name">Hesh</span>
-          <span className="topbar__version">v1.0.0</span>
+          <a className="topbar__version" href="#/changelog" title="View Release Notes (v1.1.0)">v1.1.0</a>
         </a>
 
         <div className="topbar__spacer" />
